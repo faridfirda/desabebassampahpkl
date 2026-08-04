@@ -1,64 +1,110 @@
+/* Container Utama Section CCTV */
 .cctv-section {
   padding: 50px 8%;
   background: #f8fafc;
 }
 
-
 .cctv-section h2 {
   font-size: 30px;
-  margin-bottom: 10px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
 }
 
-
 .subtitle {
-  color: #666;
+  color: #64748b;
+  font-size: 15px;
   margin-bottom: 25px;
 }
 
-
+/* Input Search Interaktif */
 .search-cctv {
   width: 100%;
   max-width: 450px;
-  padding: 14px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 1.5px solid #e2e8f0;
+  background-color: #ffffff;
   margin-bottom: 30px;
-  font-size: 16px;
+  font-size: 15px;
+  color: #1e293b;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
 }
 
+.search-cctv:focus {
+  border-color: #10b981; /* Warna aksen hijau/sesuai tema */
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+  transform: translateY(-1px);
+}
 
+.search-cctv::placeholder {
+  color: #94a3b8;
+}
+
+/* Grid Layout */
 .cctv-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 25px;
 }
 
-
+/* CCTV Card dengan Efek Interaktif */
 .cctv-card {
-  background:white;
-  border-radius:18px;
-  overflow:hidden;
-  box-shadow:0 8px 20px rgba(0,0,0,.1);
+  background: #ffffff;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
+.cctv-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.1);
+  border-color: rgba(16, 185, 129, 0.3);
+}
 
+/* Styling Container Iframe/Video */
 .cctv-card iframe {
-  width:100%;
-  height:200px;
-  border:none;
+  width: 100%;
+  height: 210px;
+  border: none;
+  background-color: #000000;
+  display: block;
+  transition: transform 0.5s ease;
 }
 
-
+/* Content Informasi CCTV */
 .cctv-content {
-  padding:20px;
+  padding: 20px;
+  background: #ffffff;
+  position: relative;
+  z-index: 2;
 }
-
 
 .cctv-content h3 {
-  margin-bottom:10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 8px 0;
+  transition: color 0.2s ease;
 }
 
+.cctv-card:hover .cctv-content h3 {
+  color: #10b981;
+}
 
 .cctv-content span {
-  font-size:14px;
+  font-size: 13px;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
 }

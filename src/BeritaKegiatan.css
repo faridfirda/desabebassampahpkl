@@ -1,3 +1,4 @@
+/* CONTAINER UTAMA */
 .berita-kegiatan {
   padding: 2.5rem 1.5rem;
   max-width: 1200px;
@@ -5,51 +6,74 @@
 }
 
 .berita-kegiatan h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-top: 2rem;
-  margin-bottom: 1.25rem;
-  color: #10b981; /* Warna hijau khas lingkungan */
+  font-size: 1.875rem;
+  font-weight: 800;
+  color: #0f172a;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.025em;
 }
 
-/* Grid layout yang sejajar tinggi card-nya */
+.berita-kegiatan .subtitle {
+  color: #64748b;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-size: 0.95rem;
+}
+
+/* GRID LAYOUT */
 .grid-card {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 1.5rem;
   align-items: stretch;
 }
 
+/* CARD - SIMPLE & ELEGAN */
 .card {
-  background-color: #0f172a; /* Dark mode slate-900 */
-  border: 1px solid #1e293b;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
   border-radius: 16px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  color: #ffffff;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  color: #0f172a;
+  cursor: pointer;
+  
+  /* Transisi halus saat kursor masuk/keluar */
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease;
 }
 
+/* HOVER EFFECT: Terangkat 6px + Shadow Lembut */
 .card:hover {
-  border-color: #059669;
-  transform: translateY(-3px);
+  transform: translateY(-6px);
+  border-color: #cbd5e1;
+  box-shadow: 0 12px 24px -6px rgba(15, 23, 42, 0.08);
 }
 
-/* 🔒 KUNCI UTAMA GAMBAR: Ketinggian di-lock di 190px */
+/* KUNCI GAMBAR: Lock Height & Subtle Zoom */
 .card-img-wrapper {
   width: 100%;
   height: 190px;
   overflow: hidden;
-  background-color: #020617;
+  background-color: #f1f5f9;
 }
 
 .card-img-wrapper img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Mencegah gambar tertarik/gepeng */
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Gambar membesar sangat halus (3%) biar tidak lebay */
+.card:hover .card-img-wrapper img {
+  transform: scale(1.03);
+}
+
+/* KONTEN TEXT */
 .card-content {
   padding: 1.25rem;
   display: flex;
@@ -62,19 +86,29 @@
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0;
-  color: #f8fafc;
+  color: #0f172a;
   line-height: 1.4;
+  transition: color 0.2s ease;
+}
+
+/* Judul berubah hijau halus */
+.card:hover .card-content h3 {
+  color: #10b981;
 }
 
 .card-content span {
   font-size: 0.85rem;
-  color: #34d399;
+  color: #059669;
   font-weight: 500;
 }
 
 .card-content p {
   font-size: 0.875rem;
-  color: #94a3b8;
+  color: #64748b;
   margin: 0;
   line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

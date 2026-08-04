@@ -1,44 +1,106 @@
+/* SECTION UTAMA */
 .aparat-section {
   padding: 60px 20px;
   text-align: center;
+  background-color: #f8fafc; /* Background bersih khas dashboard modern */
 }
 
 .aparat-section h2 {
   font-size: 32px;
+  font-weight: 800;
+  color: #0f172a;
   margin-bottom: 10px;
+  letter-spacing: -0.02em;
 }
 
 .subtitle {
-  color: #777;
-  margin-bottom: 30px;
+  color: #64748b;
+  font-size: 16px;
+  margin-bottom: 40px;
 }
 
+/* GRID CONTAINER */
 .aparat-container {
   display: flex;
   justify-content: center;
-  gap: 25px;
+  gap: 28px;
   flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
+/* CARD APARAT INTERAKTIF */
 .aparat-card {
   width: 230px;
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  background: #ffffff;
+  padding: 28px 20px;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  
+  /* Transisi halus saat mouse masuk/keluar */
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s ease;
 }
 
-.aparat-card img {
+/* EFEK HOVER: Terangkat 8px + Shadow Lembut + Ring Border */
+.aparat-card:hover {
+  transform: translateY(-8px);
+  border-color: #10b981; /* Warna aksen hijau/sesuai tema */
+  box-shadow: 0 16px 30px -8px rgba(15, 23, 42, 0.12);
+}
+
+/* FOTO PROFIL DENGAN ZOOM HALUS */
+.aparat-card .img-wrapper {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  object-fit: cover;
+  overflow: hidden;
+  position: relative;
+  border: 3px solid #f1f5f9;
+  transition: border-color 0.3s ease;
 }
 
+.aparat-card:hover .img-wrapper {
+  border-color: #d1fae5; /* Ring hijau halus di sekeliling foto pas hover */
+}
+
+.aparat-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Foto ter-zoom sedikit pas card di-hover */
+.aparat-card:hover img {
+  transform: scale(1.08);
+}
+
+/* TEKS & DESKRIPSI */
 .aparat-card h3 {
-  margin-top: 15px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-top: 16px;
+  margin-bottom: 6px;
+  line-height: 1.3;
+  transition: color 0.2s ease;
+}
+
+/* Nama aparat berubah warna saat hover */
+.aparat-card:hover h3 {
+  color: #059669;
 }
 
 .aparat-card p {
-  color: #555;
-}
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+  font-weight: 500;
+} 

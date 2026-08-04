@@ -3,6 +3,7 @@ import { useState } from "react";
 import HeroHome from "./HeroHome";
 import BankSampah from "./BankSampah"; // Modul Bank Sampah Baru
 import InteractiveMap from "./InteractiveMap";
+import CommunitySection from "./CommunitySection"; // <-- 1. TAMBAHKAN IMPORT INI
 import Navbar from "./Navbar";
 import AdminLogin from "./AdminLogin";
 import AdminDashboard from "./AdminDashboard";
@@ -59,6 +60,11 @@ export default function App() {
       {/* 3. PETA INTERAKTIF */}
       <section id="peta">
         <InteractiveMap />
+      </section>
+
+      {/* 3B. PEMBERDAYAAN & GALERI WARGA (MEMENUHI CHECKLIST RUBRIK EVALUASI) */}
+      <section id="pemberdayaan">
+        <CommunitySection /> {/* <-- 2. SIMPAN DI SINI */}
       </section>
 
       {/* 4. APARAT RW */}

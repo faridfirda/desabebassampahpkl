@@ -1,57 +1,427 @@
-.umkm-section {
-  padding: 50px 8%;
+/* Container Utama */
+.page-wrapper {
+  width: 100%;
+  background-color: #f8fafc;
+  min-height: 100vh;
+  padding: 32px 16px;
+  box-sizing: border-box;
+}
+
+.dashboard-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* SECTION ATAS (AGENDA + PAHLAWAN) */
+.top-section {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+}
+
+@media (max-width: 850px) {
+  .top-section {
+    flex-direction: column;
+  }
+}
+
+/* Agenda Card - Hover Animation */
+.agenda-card {
+  flex: 2;
   background: #ffffff;
+  border-radius: 20px;
+  padding: 28px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
 }
 
-.umkm-section h2 {
-  font-size: 30px;
-  margin-bottom: 10px;
+.agenda-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
 }
 
-.subtitle {
-  color: #666;
-  margin-bottom: 30px;
+.agenda-text {
+  flex: 1;
 }
 
+.badge-agenda {
+  background-color: #fef3c7;
+  color: #d97706;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 12px;
+  transition: transform 0.2s ease;
+}
 
-.umkm-container {
+.agenda-card:hover .badge-agenda {
+  transform: scale(1.05);
+}
+
+.agenda-text h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 10px 0;
+  line-height: 1.2;
+}
+
+.agenda-text p {
+  font-size: 13px;
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 0 0 16px 0;
+}
+
+.agenda-meta {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4b5563;
+  margin-bottom: 18px;
+}
+
+.agenda-location {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #fef3c7;
+  color: #d97706;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 20px;
+  width: fit-content;
+  box-shadow: 0 2px 6px rgba(217, 119, 6, 0.15);
+  transition: all 0.2s ease;
+}
+
+.agenda-location:hover {
+  background-color: #fde68a;
+  transform: translateY(-1px);
+}
+
+.agenda-image {
+  width: 180px;
+  height: 180px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.agenda-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.agenda-card:hover .agenda-image img {
+  transform: scale(1.08); /* Efek zoom-in halus pada gambar */
+}
+
+/* Pahlawan Card */
+.pahlawan-card {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+}
+
+.pahlawan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.pahlawan-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  color: #111827;
+}
+
+.bulan-tag {
+  font-size: 12px;
+  color: #9ca3af;
+}
+
+.pahlawan-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pahlawan-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.pahlawan-item:hover {
+  background-color: #f3f4f6;
+  transform: translateX(4px); /* Geser halus ke kanan saat di-hover */
+}
+
+.pahlawan-item.rank-1 {
+  background-color: #f0fdf4;
+}
+
+.pahlawan-item.rank-1:hover {
+  background-color: #dcfce7;
+}
+
+.rank-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+  color: #374151;
+}
+
+.rank-1 .rank-badge {
+  background-color: #bbf7d0;
+  color: #15803d;
+}
+
+.pahlawan-info {
+  flex: 1;
+}
+
+.pahlawan-info h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.pahlawan-info p {
+  margin: 0;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.pahlawan-score {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+}
+
+.pahlawan-score .jumlah {
+  font-weight: 700;
+  font-size: 13px;
+  color: #15803d;
+}
+
+.pahlawan-score .status {
+  font-size: 10px;
+  color: #9ca3af;
+}
+
+/* BLOK SECTION GENERAL */
+.section-block {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 4px 0;
+}
+
+.section-header .subtitle {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.kunjungi-toko-btn {
+  font-size: 13px;
+  font-weight: 600;
+  color: #047857;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.kunjungi-toko-btn:hover {
+  background-color: #ecfdf5;
+  transform: translateX(3px);
+}
+
+/* PASAR KREATIF GRID & CARD */
+.product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 20px;
 }
 
+.product-card {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.product-nama {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+.product-card:hover .product-nama {
+  color: #047857;
+}
+
+.product-pembuat {
+  font-size: 11px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.product-harga {
+  font-size: 13px;
+  font-weight: 700;
+  color: #047857;
+  margin-top: 6px;
+}
+
+/* UMKM GRID & CARD */
+.umkm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
 
 .umkm-card {
-  background: white;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0,0,0,.1);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
 }
 
+.umkm-card:hover {
+  transform: translateY(-5px);
+}
 
-.umkm-card img {
+.image-wrapper {
+  position: relative;
   width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-
-.umkm-content {
-  padding: 20px;
-}
-
-
-.umkm-content h3 {
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #f3f4f6;
   margin-bottom: 10px;
 }
 
-
-.umkm-content span {
-  font-size: 14px;
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
 }
 
+.product-card:hover .image-wrapper img,
+.umkm-card:hover .image-wrapper img {
+  transform: scale(1.08); /* Efek zoom-in gambar saat di-hover */
+}
 
-.umkm-content p {
-  color: #555;
-  line-height: 1.5;
+.badge-kategori,
+.badge-kategori-umkm {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
+  color: #047857;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.badge-kategori-umkm {
+  color: #0d9488;
+}
+
+.umkm-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.umkm-nama {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0;
+  transition: color 0.2s ease;
+}
+
+.umkm-card:hover .umkm-nama {
+  color: #0d9488;
+}
+
+.umkm-alamat {
+  font-size: 11px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.umkm-deskripsi {
+  font-size: 12px;
+  color: #4b5563;
+  margin-top: 4px;
+  line-height: 1.4;
 }

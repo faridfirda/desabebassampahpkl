@@ -22,6 +22,34 @@ export default function BeritaKegiatan() {
     }
   ];
 
+  // Handler saat mouse masuk card
+  const handleMouseEnterCard = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    const img = card.querySelector('img');
+    const title = card.querySelector('h3');
+
+    card.style.transform = 'translateY(-6px)';
+    card.style.boxShadow = '0 16px 24px -8px rgba(15, 23, 42, 0.12)';
+    card.style.borderColor = '#cbd5e1';
+
+    if (img) img.style.transform = 'scale(1.04)';
+    if (title) title.style.color = '#16a34a';
+  };
+
+  // Handler saat mouse keluar card
+  const handleMouseLeaveCard = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = e.currentTarget;
+    const img = card.querySelector('img');
+    const title = card.querySelector('h3');
+
+    card.style.transform = 'translateY(0px)';
+    card.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.05)';
+    card.style.borderColor = '#e2e8f0';
+
+    if (img) img.style.transform = 'scale(1)';
+    if (title) title.style.color = '#0f172a';
+  };
+
   return (
     <section id="berita" style={{ width: '100%', padding: '80px 20px', backgroundColor: '#f8fafc', boxSizing: 'border-box' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -42,19 +70,28 @@ export default function BeritaKegiatan() {
           {kegiatanList.map((item) => (
             <div 
               key={item.id}
+              onMouseEnter={handleMouseEnterCard}
+              onMouseLeave={handleMouseLeaveCard}
               style={{
                 backgroundColor: '#ffffff',
                 borderRadius: '16px',
                 border: '1px solid #e2e8f0',
                 overflow: 'hidden',
-                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)',
+                cursor: 'pointer',
+                transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease'
               }}
             >
               <div style={{ width: '100%', height: '200px', overflow: 'hidden' }}>
                 <img 
                   src={item.foto} 
                   alt={item.judul} 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  style={{ 
+                    width: '100%', 
+                    height: '100%', 
+                    objectFit: 'cover',
+                    transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)'
+                  }}
                 />
               </div>
               <div style={{ padding: '20px' }}>
@@ -64,10 +101,17 @@ export default function BeritaKegiatan() {
                   </span>
                   <span style={{ fontSize: '12px', color: '#94a3b8' }}>{item.tanggal}</span>
                 </div>
-                <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#0f172a', lineHeight: '1.4', marginBottom: '8px' }}>
+                <h3 style={{ 
+                  fontSize: '18px', 
+                  fontWeight: 'bold', 
+                  color: '#0f172a', 
+                  lineHeight: '1.4', 
+                  marginBottom: '8px',
+                  transition: 'color 0.2s ease'
+                }}>
                   {item.judul}
                 </h3>
-                <p style={{ fontSize: '14px', color: '#64748b', lineHeight: '1.5' }}>
+                <p style={{ fontSize: '14px', color: '#64748b', lineHeight: '1.5', margin: 0 }}>
                   {item.ringkasan}
                 </p>
               </div>
