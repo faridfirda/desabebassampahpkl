@@ -1,0 +1,44 @@
+.aparat-section {
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.aparat-section h2 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #777;
+  margin-bottom: 30px;
+}
+
+.aparat-container {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.aparat-card {
+  width: 230px;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.aparat-card img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.aparat-card h3 {
+  margin-top: 15px;
+}
+
+.aparat-card p {
+  color: #555;
+}

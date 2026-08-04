@@ -1,0 +1,57 @@
+.umkm-section {
+  padding: 50px 8%;
+  background: #ffffff;
+}
+
+.umkm-section h2 {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+
+.umkm-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+
+.umkm-card {
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,.1);
+}
+
+
+.umkm-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+
+.umkm-content {
+  padding: 20px;
+}
+
+
+.umkm-content h3 {
+  margin-bottom: 10px;
+}
+
+
+.umkm-content span {
+  font-size: 14px;
+}
+
+
+.umkm-content p {
+  color: #555;
+  line-height: 1.5;
+}
