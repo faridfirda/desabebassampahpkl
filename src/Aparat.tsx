@@ -1,63 +1,49 @@
-import React, { useState } from "react";
-import "./Aparat.css";
+import React from 'react';
 
 export default function Aparat() {
-  const [dataAparat] = useState(() => {
-    const savedAparat = localStorage.getItem("rw08_aparat");
-    if (savedAparat) {
-      return JSON.parse(savedAparat);
-    }
-    return [
-      {
-        nama: "Ahmad Fauzi",
-        jabatan: "Ketua RT 01",
-        wilayah: "RT 01 / RW 08",
-        foto: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=400",
-      },
-      {
-        nama: "Rudi Hartono",
-        jabatan: "Ketua RW 08",
-        wilayah: "RW 08 Cibangkong",
-        foto: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=400",
-      },
-      {
-        nama: "Dedi Setiawan",
-        jabatan: "Lurah Cibangkong",
-        wilayah: "Kelurahan Cibangkong",
-        foto: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400",
-      },
-      {
-        nama: "Sertu Andi Pratama",
-        jabatan: "Babinsa",
-        wilayah: "Koramil Batununggal / Cibangkong",
-        foto: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=400",
-      },
-      {
-        nama: "Bripka Budi Santoso",
-        jabatan: "Bhabinkamtibmas",
-        wilayah: "Polsek Batununggal",
-        foto: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=400",
-      },
-    ];
-  });
+  const pengurus = [
+    { nama: 'Ketua RW 08', jabatan: 'Penanggung Jawab Program RW Bebas Sampah', namaOrang: 'Bpk. Ahmad' },
+    { nama: 'Ketua Bank Sampah', jabatan: 'Koordinator Pengelolaan & Penimbangan', namaOrang: 'Ibu Ratna' },
+    { nama: 'Koordinator Kebersihan', jabatan: 'Penanggung Jawab Giat Kerja Bakti', namaOrang: 'Bpk. Herman' },
+  ];
 
   return (
-    <section className="aparat-section">
-      <h2>Aparat Wilayah RW 08</h2>
-      <p className="subtitle">
-        Pengurus RT, RW, dan Aparat Keamanan yang bertugas di wilayah RW 08 Cibangkong
-      </p>
+    <section id="aparat" style={{ width: '100%', padding: '80px 20px', backgroundColor: '#f8fafc', boxSizing: 'border-box' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <span style={{ color: '#16a34a', fontWeight: '600', fontSize: '14px', textTransform: 'uppercase' }}>
+            Pengurus Wilayah
+          </span>
+          <h2 style={{ fontSize: '32px', fontWeight: 'bold', color: '#0f172a', marginTop: '8px' }}>
+            Aparat & Pengurus RW 08 Cibangkong
+          </h2>
+          <p style={{ color: '#64748b', fontSize: '16px', marginTop: '8px' }}>
+            Tim penggerak program lingkungan dan pelayanan masyarakat RW 08.
+          </p>
+        </div>
 
-      <div className="aparat-container">
-        {dataAparat.map((item: any, index: number) => (
-          <div className="aparat-card" key={index}>
-            <img src={item.foto || item.gambar} alt={item.nama} />
-
-            <h3>{item.nama}</h3>
-            <p>{item.jabatan}</p>
-            <span>{item.wilayah}</span>
-          </div>
-        ))}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+          {pengurus.map((item, index) => (
+            <div 
+              key={index}
+              style={{
+                backgroundColor: '#ffffff',
+                padding: '24px',
+                borderRadius: '16px',
+                border: '1px solid #e2e8f0',
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)',
+                textAlign: 'center'
+              }}
+            >
+              <div style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: '#dcfce7', color: '#16a34a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', margin: '0 auto 16px auto', fontWeight: 'bold' }}>
+                👤
+              </div>
+              <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#0f172a' }}>{item.namaOrang}</h3>
+              <p style={{ color: '#16a34a', fontSize: '14px', fontWeight: '600', marginTop: '4px' }}>{item.nama}</p>
+              <p style={{ color: '#64748b', fontSize: '13px', marginTop: '8px' }}>{item.jabatan}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

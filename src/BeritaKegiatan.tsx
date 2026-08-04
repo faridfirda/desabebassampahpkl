@@ -1,139 +1,81 @@
-import React, { useState, useEffect } from "react";
-import "./BeritaKegiatan.css";
-
-import fotoSampah from "./sampah.jpeg";
-import fotoKerjaBakti from "./kerjabakti.jpg";
-import fotoSapu from "./sapu.jpg";
+import React from 'react';
+import fotoKerjaBakti from './kerjabakti.jpg';
+import fotoDaurUlang from './sampah.jpeg';
 
 export default function BeritaKegiatan() {
-  // 1. Inisialisasi state berita (ambil dari LocalStorage)
-  const [berita, setBerita] = useState(() => {
-    const savedBerita = localStorage.getItem("rw08_berita");
-    if (savedBerita) {
-      return JSON.parse(savedBerita);
+  const kegiatanList = [
+    {
+      id: 1,
+      judul: "Giat Kerja Bakti Masif Membersihkan Saluran Air RT 01 - RT 05",
+      tanggal: "Minggu, 28 Juli 2026",
+      kategori: "Gotong Royong",
+      ringkasan: "Antusiasme warga RW 08 Cibangkong dalam pembersihan sedimen gorong-gorong untuk mengantisipasi genangan air hujan.",
+      foto: fotoKerjaBakti
+    },
+    {
+      id: 2,
+      judul: "Sosialisasi Ibu-Ibu PKK: Pemilahan Sampah Dapur & Daur Ulang Plastik",
+      tanggal: "Jumat, 26 Juli 2026",
+      kategori: "Pemberdayaan",
+      ringkasan: "Edukasi pembuatan pupuk organik cair (POC) dan pengolahan limbah kresek menjadi barang bernilai ekonomis.",
+      foto: fotoDaurUlang
     }
-    return [
-      {
-        judul: "Peluncuran Resmi Program Bank Sampah RW 08",
-        tanggal: "Minggu Ke-1 & Ke-3 (08.00 - 11.00 WIB)",
-        isi: "Ayo sukseskan gerakan RW Bebas Sampah! Warga RW 08 Cibangkong kini dapat menyetorkan sampah anorganik terpilah untuk ditukar menjadi saldo tabungan warga di Pos RW 08.",
-        gambar: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&q=80&w=800",
-      },
-      {
-        judul: "Sosialisasi Pemilahan Sampah & Daur Ulang Bersama PKK",
-        tanggal: "20 Juli 2026",
-        isi: "Pelatihan pengolahan sampah organik rumah tangga dan pemilahan botol plastik bernilai ekonomis bersama Tim PKK RW 08 Cibangkong.",
-        gambar: fotoSampah,
-      },
-    ];
-  });
-
-  // 2. Inisialisasi state kegiatan (ambil dari LocalStorage "rw08_kegiatan" yang diinput dari Admin Dashboard)
-  const [kegiatan] = useState(() => {
-    const savedKegiatan = localStorage.getItem("rw08_kegiatan");
-    if (savedKegiatan) {
-      return JSON.parse(savedKegiatan);
-    }
-    return [
-      {
-        nama: "Kerja Bakti Membersihkan Saluran Air & Gorong-Gorong",
-        waktu: "Sabtu, 07.30 WIB",
-        lokasi: "Wilayah RW 08 Cibangkong",
-        gambar: fotoKerjaBakti,
-      },
-      {
-        nama: "Gotong Royong Kebersihan Lingkungan",
-        waktu: "Minggu, 07.00 WIB",
-        lokasi: "Pos & Area Lapangan RW 08",
-        gambar: fotoSapu,
-      },
-    ];
-  });
-
-  useEffect(() => {
-    localStorage.setItem("rw08_berita", JSON.stringify(berita));
-  }, [berita]);
+  ];
 
   return (
-    <section className="berita-kegiatan" id="bank-sampah" style={{ padding: "40px 20px" }}>
-      
-      {/* MODUL INFORMASI BANK SAMPAH */}
-      <div 
-        style={{
-          backgroundColor: "#f0fdf4",
-          border: "1px solid #bbf7d0",
-          borderRadius: "16px",
-          padding: "24px",
-          marginBottom: "40px",
-          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.03)"
-        }}
-      >
-        <h2 style={{ color: "#166534", marginTop: 0, marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
-          🏛️ Modul Informasi & Alur Bank Sampah RW 08
-        </h2>
+    <section id="berita" style={{ width: '100%', padding: '80px 20px', backgroundColor: '#f8fafc', boxSizing: 'border-box' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px" }}>
-          <div style={{ backgroundColor: "#ffffff", padding: "16px", borderRadius: "12px", border: "1px solid #e2e8f0" }}>
-            <h4 style={{ margin: "0 0 8px 0", color: "#0f172a" }}>⏰ Jam Operasional & Lokasi</h4>
-            <p style={{ margin: 0, fontSize: "14px", color: "#475569", lineHeight: "1.5" }}>
-              <strong>Waktu:</strong> Minggu Ke-1 & Ke-3 (08.00 - 11.00 WIB)<br />
-              <strong>Lokasi:</strong> Pos RW 08 Cibangkong
-            </p>
-          </div>
-
-          <div style={{ backgroundColor: "#ffffff", padding: "16px", borderRadius: "12px", border: "1px solid #e2e8f0" }}>
-            <h4 style={{ margin: "0 0 8px 0", color: "#0f172a" }}>♻️ Jenis Sampah Diterima</h4>
-            <p style={{ margin: 0, fontSize: "14px", color: "#475569", lineHeight: "1.5" }}>
-              Anorganik bernilai jual: Plastik (Botol/Gelas PET), Kardus/Kertas, Kaleng, dan Minyak Jelantah.
-            </p>
-          </div>
-
-          <div style={{ backgroundColor: "#ffffff", padding: "16px", borderRadius: "12px", border: "1px solid #e2e8f0" }}>
-            <h4 style={{ margin: "0 0 8px 0", color: "#0f172a" }}>🔄 Alur Penimbangan Warga</h4>
-            <ol style={{ margin: 0, paddingLeft: "18px", fontSize: "13px", color: "#475569", lineHeight: "1.5" }}>
-              <li>Pilah sampah kering dari rumah.</li>
-              <li>Bawa ke Pos RW 08 saat operasional.</li>
-              <li>Ditimbang & dicatat ke tabungan warga.</li>
-            </ol>
-          </div>
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <span style={{ color: '#16a34a', fontWeight: 'bold', fontSize: '14px', textTransform: 'uppercase' }}>
+            Kabar Wilayah
+          </span>
+          <h2 style={{ fontSize: '32px', fontWeight: 'bold', color: '#0f172a', marginTop: '8px' }}>
+            Galeri & Kegiatan Lingkungan RW 08
+          </h2>
+          <p style={{ color: '#64748b', fontSize: '16px', marginTop: '8px' }}>
+            Dokumentasi aksi nyata gotong royong dan edukasi kebersihan warga Cibangkong.
+          </p>
         </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '28px' }}>
+          {kegiatanList.map((item) => (
+            <div 
+              key={item.id}
+              style={{
+                backgroundColor: '#ffffff',
+                borderRadius: '16px',
+                border: '1px solid #e2e8f0',
+                overflow: 'hidden',
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
+              }}
+            >
+              <div style={{ width: '100%', height: '200px', overflow: 'hidden' }}>
+                <img 
+                  src={item.foto} 
+                  alt={item.judul} 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </div>
+              <div style={{ padding: '20px' }}>
+                <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '10px' }}>
+                  <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#16a34a', backgroundColor: '#dcfce7', padding: '3px 10px', borderRadius: '9999px' }}>
+                    {item.kategori}
+                  </span>
+                  <span style={{ fontSize: '12px', color: '#94a3b8' }}>{item.tanggal}</span>
+                </div>
+                <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#0f172a', lineHeight: '1.4', marginBottom: '8px' }}>
+                  {item.judul}
+                </h3>
+                <p style={{ fontSize: '14px', color: '#64748b', lineHeight: '1.5' }}>
+                  {item.ringkasan}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
       </div>
-
-      {/* GALERI BERITA & KEGIATAN */}
-      <h2>♻️ Berita & Edukasi Lingkungan</h2>
-      <div className="grid-card">
-        {berita.map((item: any, index: number) => (
-          <div className="card" key={index}>
-            <div className="card-img-wrapper">
-              <img src={item.gambar} alt={item.judul} />
-            </div>
-
-            <div className="card-content">
-              <h3>{item.judul}</h3>
-              <span>📅 {item.tanggal}</span>
-              <p>{item.isi}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <h2 style={{ marginTop: "40px" }}>🧹 Gotong Royong & Kegiatan Kebersihan</h2>
-      <div className="grid-card">
-        {kegiatan.map((item: any, index: number) => (
-          <div className="card" key={index}>
-            <div className="card-img-wrapper">
-              <img src={item.gambar || (index % 2 === 0 ? fotoKerjaBakti : fotoSapu)} alt={item.nama} />
-            </div>
-
-            <div className="card-content">
-              <h3>{item.nama}</h3>
-              <p>⏰ {item.waktu}</p>
-              <p>📍 {item.lokasi}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
     </section>
   );
 }

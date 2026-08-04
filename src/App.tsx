@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import HeroHome from "./HeroHome";
+import BankSampah from "./BankSampah"; // Modul Bank Sampah Baru
 import InteractiveMap from "./InteractiveMap";
 import Navbar from "./Navbar";
 import AdminLogin from "./AdminLogin";
@@ -11,12 +12,10 @@ import BeritaKegiatan from "./BeritaKegiatan";
 import UMKM from "./UMKM";
 import CCTV from "./CCTV";
 
-
 export default function App() {
 
   const [showLogin, setShowLogin] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
-
 
   if (showLogin && !isLogin) {
     return (
@@ -28,11 +27,9 @@ export default function App() {
     );
   }
 
-
   if (isLogin) {
     return <AdminDashboard />;
   }
-
 
   return (
     <div
@@ -47,51 +44,47 @@ export default function App() {
         onLoginClick={() => setShowLogin(true)} 
       />
 
-
       <div style={{ height: "110px" }} />
 
-
-      {/* BERANDA */}
+      {/* 1. BERANDA */}
       <section id="beranda">
-        <HeroHome />
+        <HeroHome onLoginClick={() => setShowLogin(true)} />
       </section>
 
+      {/* 2. MODUL BANK SAMPAH (TASK 2 REVISI) */}
+      <section id="bank-sampah">
+        <BankSampah />
+      </section>
 
-      {/* PETA INTERAKTIF */}
+      {/* 3. PETA INTERAKTIF */}
       <section id="peta">
         <InteractiveMap />
       </section>
 
-
-      {/* APARAT RW */}
+      {/* 4. APARAT RW */}
       <section id="aparat">
         <Aparat />
       </section>
 
-
-      {/* STATISTIK */}
+      {/* 5. STATISTIK LINGKUNGAN */}
       <section id="statistik">
         <Statistik />
       </section>
 
-
-      {/* BERITA & KEGIATAN */}
+      {/* 6. BERITA & KEGIATAN LINGKUNGAN */}
       <section id="berita">
         <BeritaKegiatan />
       </section>
 
-
-      {/* UMKM */}
+      {/* 7. LAPAK UMKM WARGA */}
       <section id="umkm">
         <UMKM />
       </section>
 
-
-      {/* CCTV */}
+      {/* 8. MONITORING CCTV */}
       <section id="cctv">
         <CCTV />
       </section>
-
 
     </div>
   );
