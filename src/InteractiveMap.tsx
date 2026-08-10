@@ -1,364 +1,437 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 
-type FilterType = 'all' | 'batas' | 'sampah' | 'cctv' | 'pju';
+export default function InteractiveMap() {
+  const [activeRT, setActiveRT] = useState("rt07");
+  const [alarmActive, setAlarmActive] = useState(true);
+  const [filters, setFilters] = useState({
+    batas: true,
+    fasilitas: true,
+    cctv: true,
+    pju: true,
+  });
 
-interface RtDetail {
-  ketua: string;
-  telp: string;
-  warga: string;
-  kk: string;
-  cctv: string;
-  pju: string;
-  fasilitas: string;
-  status: string;
-  hasSampah: boolean;
-  hasCctv: boolean;
-  hasPju: boolean;
-  hasBatas: boolean;
-}
+  // State untuk efek interaktif/hidup (pulsa radar & animasi rotasi/kedip)
+  const [pulseAnim, setPulseAnim] = useState(false);
 
-export default function PetaWilayahSection() {
-  const [activeFilter, setActiveFilter] = useState<FilterType>('all');
-  const [selectedRt, setSelectedRt] = useState<string>('rt03');
-  const [showPopup, setShowPopup] = useState<boolean>(false);
-  const [toastMessage, setToastMessage] = useState<string>('');
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setPulseAnim((prev) => !prev);
+    }, 1200);
+    return () => clearInterval(timer);
+  }, []);
 
-  const dataRt: Record<string, RtDetail> = {
-    rt01: { ketua: 'Bpk. H. Dadang', telp: '0812-1111-2222', warga: '130 Jiwa', kk: '38 KK', cctv: '2 Unit', pju: '5 Titik', fasilitas: 'Kantor Sekretariat RW & Pos Ronda', status: 'Bebas Sampah', hasSampah: false, hasCctv: false, hasPju: true, hasBatas: true },
-    rt02: { ketua: 'Bpk. Asep Saepudin', telp: '0812-3333-4444', warga: '145 Jiwa', kk: '42 KK', cctv: '1 Unit', pju: '4 Titik', fasilitas: 'Bank Sampah Induk RW 08', status: 'Bebas Sampah', hasSampah: true, hasCctv: true, hasPju: true, hasBatas: false },
-    rt03: { ketua: 'Bpk. M. Yasin', telp: '0812-3456-7803', warga: '142 Jiwa', kk: '40 KK', cctv: '1 Unit', pju: '4 Titik', fasilitas: 'Rumah Komposting Organik', status: 'Bebas Sampah', hasSampah: true, hasCctv: true, hasPju: true, hasBatas: false },
-    rt04: { ketua: 'Bpk. Hendra Gunawan', telp: '0812-5555-6666', warga: '120 Jiwa', kk: '35 KK', cctv: '2 Unit', pju: '3 Titik', fasilitas: 'Posko Pemilahan Sampah Warga', status: 'Bebas Sampah', hasSampah: true, hasCctv: true, hasPju: true, hasBatas: false },
-    rt05: { ketua: 'Bpk. Rudi Hartono', telp: '0812-7777-8888', warga: '150 Jiwa', kk: '45 KK', cctv: '2 Unit', pju: '6 Titik', fasilitas: 'Kawasan Mandiri & CCTV Lingkungan', status: 'Bebas Sampah', hasSampah: false, hasCctv: true, hasPju: true, hasBatas: false },
-    rt06: { ketua: 'Bpk. Sulaeman', telp: '0812-9999-0000', warga: '115 Jiwa', kk: '32 KK', cctv: '1 Unit', pju: '3 Titik', fasilitas: 'Area Hijau & Bank Sampah Unit', status: 'Bebas Sampah', hasSampah: true, hasCctv: true, hasPju: true, hasBatas: false },
-    rt07: { ketua: 'Bpk. Diki Wahyudi', telp: '0813-1234-5678', warga: '135 Jiwa', kk: '39 KK', cctv: '2 Unit', pju: '5 Titik', fasilitas: 'Pusat Daur Ulang Plastik', status: 'Bebas Sampah', hasSampah: true, hasCctv: true, hasPju: true, hasBatas: true },
+  const rtData: Record<string, { nama: string; warna: string; ketua: string; kontak: string; warga: string; kk: string; cctv: string; pju: string; status: string }> = {
+    rt01: {
+      nama: "RT 01",
+      warna: "#0284c7",
+      ketua: "Bpk. Ahmad Suhendar",
+      kontak: "0812-3456-7801",
+      warga: "120 Jiwa",
+      kk: "35 KK",
+      cctv: "5 Unit",
+      pju: "5 Titik",
+      status: "Aman",
+    },
+    rt02: {
+      nama: "RT 02",
+      warna: "#dc2626",
+      ketua: "Bpk. Rahmat Hidayat",
+      kontak: "0813-5566-7788",
+      warga: "145 Jiwa",
+      kk: "40 KK",
+      cctv: "5 Unit",
+      pju: "5 Titik",
+      status: "Aman",
+    },
+    rt03: {
+      nama: "RT 03",
+      warna: "#16a34a",
+      ketua: "Bpk. Dedi Supriadi",
+      kontak: "0815-9988-2233",
+      warga: "130 Jiwa",
+      kk: "38 KK",
+      cctv: "5 Unit",
+      pju: "5 Titik",
+      status: "Aman",
+    },
+    rt04: {
+      nama: "RT 04",
+      warna: "#2563eb",
+      ketua: "Bpk. Rudi Hermawan",
+      kontak: "0813-2233-4455",
+      warga: "125 Jiwa",
+      kk: "36 KK",
+      cctv: "5 Unit",
+      pju: "5 Titik",
+      status: "Aman",
+    },
+    rt05: {
+      nama: "RT 05",
+      warna: "#e11d48",
+      ketua: "Bpk. Usep Saepudin",
+      kontak: "0812-9911-2233",
+      warga: "135 Jiwa",
+      kk: "39 KK",
+      cctv: "5 Unit",
+      pju: "5 Titik",
+      status: "Aman",
+    },
+    rt06: {
+      nama: "RT 06",
+      warna: "#16a34a",
+      ketua: "Bpk. Hendra Gunawan",
+      kontak: "0812-7788-9900",
+      warga: "150 Jiwa",
+      kk: "42 KK",
+      cctv: "5 Unit",
+      pju: "5 Titik",
+      status: "Aman",
+    },
+    rt07: {
+      nama: "RT 07",
+      warna: "#d97706",
+      ketua: "Bpk. Yayan Suryana",
+      kontak: "0819-4455-6677",
+      warga: "160 Jiwa",
+      kk: "45 KK",
+      cctv: "5 Unit",
+      pju: "5 Titik",
+      status: "Darurat",
+    },
   };
 
-  const currentInfo = dataRt[selectedRt] || dataRt['rt03'];
+  const current = rtData[activeRT] || rtData.rt07;
 
-  const triggerNotification = (msg: string) => {
-    setToastMessage(msg);
-    setShowPopup(false);
-    setTimeout(() => setToastMessage(''), 4000);
-  };
-
-  // Helper untuk merender ikon filter berdasarkan status RT
-  const renderRtIcons = (rtKey: string) => {
-    const item = dataRt[rtKey];
-    if (!item) return null;
-
-    const showAll = activeFilter === 'all';
-
-    return (
-      <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', minHeight: '24px', alignItems: 'center' }}>
-        {(showAll || activeFilter === 'batas') && item.hasBatas && (
-          <span title="Batas / Sekretariat / Fasum" style={{ animation: 'bounce 1s infinite alternate' }}>🏢</span>
-        )}
-        {(showAll || activeFilter === 'sampah') && item.hasSampah && (
-          <span title="Bank Sampah / Pengelolaan">♻️</span>
-        )}
-        {(showAll || activeFilter === 'cctv') && item.hasCctv && (
-          <span title="CCTV Pengawas">📹</span>
-        )}
-        {(showAll || activeFilter === 'pju') && item.hasPju && (
-          <span title="Penerangan Jalan (PJU)">💡</span>
-        )}
-      </div>
-    );
+  const toggleFilter = (key: keyof typeof filters) => {
+    setFilters((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
   return (
-    <section style={{ width: '100%', padding: '40px 20px', backgroundColor: '#f8fafc', boxSizing: 'border-box', fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif", position: 'relative' }}>
-      
-      {/* INJECT ANIMATION KEYFRAMES */}
-      <style>{`
-        @keyframes fadeInDown {
-          from { opacity: 0; transform: translateY(-12px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulseGlow {
-          0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-          70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-        }
-        .rt-card {
-          transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .rt-card:hover {
-          transform: translateY(-3px) scale(1.01);
-          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
-        }
-      `}</style>
-
-      {/* TOAST NOTIFICATION */}
-      {toastMessage && (
-        <div style={{
-          position: 'fixed', top: '24px', right: '24px', zIndex: 10000,
-          backgroundColor: '#0f172a', color: '#ffffff', padding: '14px 20px', borderRadius: '12px',
-          boxShadow: '0 10px 20px -3px rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', gap: '10px',
-          animation: 'fadeInDown 0.3s ease'
-        }}>
-          <span style={{ fontSize: '18px' }}>🚨</span>
-          <span style={{ fontSize: '13px', fontWeight: '500' }}>{toastMessage}</span>
-        </div>
-      )}
-
-      <div style={{ maxWidth: '1300px', margin: '0 auto', display: 'grid', gridTemplateColumns: '260px 1fr 320px', gap: '24px', alignItems: 'start' }}>
+    <div style={{ background: "#f8fafc", minHeight: "100vh", padding: "30px 20px", fontFamily: "'Inter', sans-serif", color: "#1f2937" }}>
+      <div style={{ maxWidth: "1300px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "24px" }}>
         
-        {/* KOLOM KIRI: FILTER & EMERGENCY */}
-        <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.02)' }}>
-          <h3 style={{ fontSize: '16px', fontWeight: 'bold', color: '#0f172a', margin: '0 0 6px 0' }}>Filter Peta</h3>
-          <p style={{ fontSize: '12px', color: '#64748b', margin: '0 0 16px 0', lineHeight: '1.4' }}>Klik opsi untuk menyaring fasilitas pada peta.</p>
+        {/* HEADER UTAMA & STATISTIK ATAS */}
+        <div style={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "24px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "20px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)" }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
+              <span style={{ fontSize: "20px" }}>🗺️</span>
+              <h2 style={{ fontSize: "24px", fontWeight: "800", color: "#0f172a", margin: 0 }}>
+                RW 08 Kelurahan Cibangkong / Kecamatan Batununggal
+              </h2>
+            </div>
+            <div style={{ fontSize: "14px", fontWeight: "600", color: "#3b82f6", marginBottom: "8px" }}>
+              Ketua RW: Bpk. H. Rahmat Hidayat
+            </div>
+            <p style={{ fontSize: "13px", color: "#64748b", margin: 0, maxWidth: "600px", lineHeight: "1.5" }}>
+              Wilayah RW 08 merupakan kawasan pemukiman yang tertib, aman, dan didukung oleh infrastruktur digital serta keamanan warga berbasis RT.
+            </p>
+          </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
             {[
-              { id: 'batas', label: '🗺️ Batas RW & RT', activeBg: '#eff6ff', activeBorder: '#2563eb' },
-              { id: 'sampah', label: '♻️ Bank Sampah & TPS', activeBg: '#f0fdf4', activeBorder: '#16a34a' },
-              { id: 'cctv', label: '📹 CCTV Pengawas', activeBg: '#f1f5f9', activeBorder: '#475569' },
-              { id: 'pju', label: '💡 PJU (Penerangan)', activeBg: '#fffbeb', activeBorder: '#d97706' },
-            ].map((filter) => {
-              const isActive = activeFilter === filter.id;
-              return (
-                <button
-                  key={filter.id}
-                  onClick={() => setActiveFilter(isActive ? 'all' : (filter.id as FilterType))}
-                  style={{
-                    display: 'flex', alignItems: 'center', gap: '10px', padding: '12px 14px', borderRadius: '10px',
-                    border: isActive ? `2px solid ${filter.activeBorder}` : '1px solid #cbd5e1',
-                    backgroundColor: isActive ? filter.activeBg : '#ffffff',
-                    color: '#1e293b', fontWeight: 'bold', fontSize: '13px', cursor: 'pointer', textAlign: 'left', width: '100%',
-                    transition: 'all 0.2s'
-                  }}
-                >
-                  {filter.label}
-                </button>
-              );
-            })}
-
-            {activeFilter !== 'all' && (
-              <button 
-                onClick={() => setActiveFilter('all')}
-                style={{ marginTop: '6px', padding: '8px', backgroundColor: '#f1f5f9', border: '1px solid #cbd5e1', borderRadius: '8px', fontSize: '12px', fontWeight: 'bold', color: '#475569', cursor: 'pointer' }}
-              >
-                🔄 Tampilkan Semua Fasilitas
-              </button>
-            )}
-          </div>
-
-          {/* TOMBOL DARURAT */}
-          <div style={{ marginTop: '24px', backgroundColor: '#fef2f2', border: '1px solid #fecaca', padding: '14px', borderRadius: '12px' }}>
-            <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#dc2626', display: 'block', marginBottom: '4px' }}>⚠️ Status Wilayah</span>
-            <p style={{ fontSize: '11px', color: '#7f1d1d', margin: '0 0 10px 0', lineHeight: '1.4' }}>Sistem respon cepat & penanganan darurat warga.</p>
-            <button 
-              onClick={() => setShowPopup(true)}
-              style={{
-                width: '100%', padding: '10px', backgroundColor: '#ef4444', color: '#ffffff', border: 'none', borderRadius: '8px', fontWeight: 'bold', fontSize: '12px', cursor: 'pointer',
-                animation: 'pulseGlow 2s infinite'
-              }}
-            >
-              🚨 Cek Alarm Warga
-            </button>
-          </div>
-        </div>
-
-        {/* KOLOM TENGAH: PETA WILAYAH INTERAKTIF */}
-        <div style={{ backgroundColor: '#ffffff', padding: '24px', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.02)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <span style={{ fontSize: '12px', color: '#64748b' }}>🧭 Utara (N)</span>
-            <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#475569', backgroundColor: '#f1f5f9', padding: '4px 10px', borderRadius: '20px' }}>
-              {activeFilter !== 'all' ? `Filter: ${activeFilter.toUpperCase()}` : 'Semua Fasilitas Terlihat'}
-            </span>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '110px 1fr 1fr 1fr', gridTemplateRows: 'auto auto', gap: '12px' }}>
-            
-            {/* RT 01 */}
-            <div 
-              className="rt-card"
-              onClick={() => setSelectedRt('rt01')}
-              style={{
-                gridRow: 'span 2', border: selectedRt === 'rt01' ? '2px solid #2563eb' : '1px solid #93c5fd', borderRadius: '12px', padding: '12px',
-                backgroundColor: selectedRt === 'rt01' ? '#eff6ff' : '#ffffff', cursor: 'pointer', display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-                boxShadow: selectedRt === 'rt01' ? '0 0 0 3px rgba(37, 99, 235, 0.2)' : 'none'
-              }}
-            >
-              <div>
-                <h4 style={{ fontSize: '15px', fontWeight: 'bold', color: '#1d4ed8', margin: '0 0 8px 0' }}>RT 01</h4>
-                {renderRtIcons('rt01')}
+              { label: "TOTAL WARGA", val: "965 Jiwa", color: "#0284c7" },
+              { label: "TOTAL KK", val: "270 KK", color: "#0f172a" },
+              { label: "JUMLAH RT", val: "7 RT", color: "#0f172a" },
+              { label: "LUAS WILAYAH", val: "12.5 Ha", color: "#0f172a" },
+            ].map((item, idx) => (
+              <div key={idx} style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "12px", padding: "12px 16px", textAlign: "center", minWidth: "110px" }}>
+                <div style={{ fontSize: "10px", fontWeight: "700", color: "#64748b", textTransform: "uppercase", marginBottom: "4px" }}>{item.label}</div>
+                <div style={{ fontSize: "16px", fontWeight: "800", color: item.color }}>{item.val}</div>
               </div>
-              <span style={{ fontSize: '10px', fontWeight: 'bold', color: '#3b82f6', marginTop: '10px' }}>Sekretariat RW</span>
-            </div>
-
-            {/* RT 02 */}
-            <div 
-              className="rt-card"
-              onClick={() => setSelectedRt('rt02')}
-              style={{
-                gridColumn: 'span 2', gridRow: 'span 1', border: selectedRt === 'rt02' ? '2px solid #dc2626' : '1px solid #fca5a5', borderRadius: '12px', padding: '14px',
-                backgroundColor: selectedRt === 'rt02' ? '#fef2f2' : '#ffffff', cursor: 'pointer',
-                boxShadow: selectedRt === 'rt02' ? '0 0 0 3px rgba(220, 38, 38, 0.2)' : 'none'
-              }}
-            >
-              <h4 style={{ fontSize: '15px', fontWeight: 'bold', color: '#b91c1c', margin: '0 0 8px 0' }}>RT 02</h4>
-              {renderRtIcons('rt02')}
-              <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#16a34a', marginTop: '6px', display: 'block' }}>Bank Sampah Induk</span>
-            </div>
-
-            {/* RT 04 */}
-            <div 
-              className="rt-card"
-              onClick={() => setSelectedRt('rt04')}
-              style={{
-                border: selectedRt === 'rt04' ? '2px solid #9333ea' : '1px solid #d8b4fe', borderRadius: '12px', padding: '12px',
-                backgroundColor: selectedRt === 'rt04' ? '#faf5ff' : '#ffffff', cursor: 'pointer',
-                boxShadow: selectedRt === 'rt04' ? '0 0 0 3px rgba(147, 51, 234, 0.2)' : 'none'
-              }}
-            >
-              <h4 style={{ fontSize: '15px', fontWeight: 'bold', color: '#7e22ce', margin: '0 0 6px 0' }}>RT 04</h4>
-              {renderRtIcons('rt04')}
-            </div>
-
-            {/* RT 06 */}
-            <div 
-              className="rt-card"
-              onClick={() => setSelectedRt('rt06')}
-              style={{
-                border: selectedRt === 'rt06' ? '2px solid #0284c7' : '1px solid #7dd3fc', borderRadius: '12px', padding: '12px',
-                backgroundColor: selectedRt === 'rt06' ? '#f0f9ff' : '#ffffff', cursor: 'pointer',
-                boxShadow: selectedRt === 'rt06' ? '0 0 0 3px rgba(2, 132, 199, 0.2)' : 'none'
-              }}
-            >
-              <h4 style={{ fontSize: '15px', fontWeight: 'bold', color: '#0369a1', margin: '0 0 6px 0' }}>RT 06</h4>
-              {renderRtIcons('rt06')}
-            </div>
-
-            {/* RT 03 */}
-            <div 
-              className="rt-card"
-              onClick={() => setSelectedRt('rt03')}
-              style={{
-                gridColumn: 'span 2', border: selectedRt === 'rt03' ? '2px solid #ca8a04' : '1px solid #fde047', borderRadius: '12px', padding: '14px',
-                backgroundColor: selectedRt === 'rt03' ? '#fefce8' : '#ffffff', cursor: 'pointer',
-                boxShadow: selectedRt === 'rt03' ? '0 0 0 3px rgba(202, 138, 4, 0.2)' : 'none'
-              }}
-            >
-              <h4 style={{ fontSize: '15px', fontWeight: 'bold', color: '#a16207', margin: '0 0 6px 0' }}>RT 03</h4>
-              {renderRtIcons('rt03')}
-              <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#854d0e', marginTop: '6px', display: 'block' }}>Komposter Organik</span>
-            </div>
-
-            {/* RT 07 */}
-            <div 
-              className="rt-card"
-              onClick={() => setSelectedRt('rt07')}
-              style={{
-                gridColumn: 'span 2', border: selectedRt === 'rt07' ? '2px solid #ea580c' : '1px solid #fdba74', borderRadius: '12px', padding: '14px',
-                backgroundColor: selectedRt === 'rt07' ? '#fff7ed' : '#ffffff', cursor: 'pointer',
-                boxShadow: selectedRt === 'rt07' ? '0 0 0 3px rgba(234, 88, 12, 0.2)' : 'none'
-              }}
-            >
-              <h4 style={{ fontSize: '15px', fontWeight: 'bold', color: '#c2410c', margin: '0 0 6px 0' }}>RT 07</h4>
-              {renderRtIcons('rt07')}
-            </div>
-
+            ))}
           </div>
         </div>
 
-        {/* KOLOM KANAN: DETAIL PANEL RT */}
-        <div style={{ backgroundColor: '#ffffff', padding: '20px', borderRadius: '16px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.02)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', paddingBottom: '12px', borderBottom: '1px solid #f1f5f9' }}>
-            <div style={{ width: '42px', height: '42px', borderRadius: '50%', backgroundColor: '#f0fdf4', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '18px' }}>
-              👤
+        {/* KONTEN UTAMA */}
+        <div style={{ display: "grid", gridTemplateColumns: "280px 1fr 340px", gap: "20px", alignItems: "start" }}>
+          
+          {/* KOLOM 1: FILTER PETA & STATUS DARURAT */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            <div style={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "20px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)" }}>
+              <div style={{ fontSize: "16px", fontWeight: "700", color: "#0f172a", marginBottom: "4px" }}>Filter Peta</div>
+              <div style={{ fontSize: "12px", color: "#64748b", marginBottom: "16px" }}>Atur elemen peta atau pilih tombol RT untuk melihat rincian.</div>
+
+              {/* Status Darurat Card dengan efek kedip halus saat alarm aktif */}
+              <div style={{ 
+                background: alarmActive ? "#fef2f2" : "#f0fdf4", 
+                border: `1px solid ${alarmActive ? "#fecaca" : "#bbf7d0"}`, 
+                borderRadius: "12px", 
+                padding: "14px", 
+                marginBottom: "16px",
+                boxShadow: alarmActive && pulseAnim ? "0 0 12px rgba(239, 68, 68, 0.3)" : "none",
+                transition: "box-shadow 0.4s ease"
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", fontWeight: "700", color: alarmActive ? "#dc2626" : "#16a34a", marginBottom: "6px" }}>
+                  <span style={{ transform: alarmActive && pulseAnim ? "scale(1.2)" : "scale(1)", transition: "transform 0.3s" }}>⚠️</span> 
+                  {alarmActive ? "Status Darurat di RT 07!" : "Kondisi Normal"}
+                </div>
+                <div style={{ fontSize: "12px", color: "#4b5563", marginBottom: "10px" }}>
+                  {alarmActive ? "Alarm darurat aktif di wilayah RT 07." : "Tidak ada laporan darurat aktif."}
+                </div>
+                <button 
+                  onClick={() => setAlarmActive(!alarmActive)}
+                  style={{ width: "100%", background: alarmActive ? "#ef4444" : "#16a34a", color: "#fff", border: "none", padding: "8px", borderRadius: "8px", fontSize: "12px", fontWeight: "700", cursor: "pointer", transition: "0.2s" }}
+                >
+                  {alarmActive ? "Matikan Alarm" : "Aktifkan Siaga"}
+                </button>
+              </div>
+
+              {/* Toggle Filters */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                {[
+                  { key: "batas", label: "Batas RW & RT", icon: "🗺️" },
+                  { key: "fasilitas", label: "Fasilitas Umum, 3 Masjid & GSG", icon: "🏛️" },
+                  { key: "cctv", label: "CCTV Pengawas (5)", icon: "📷" },
+                  { key: "pju", label: "PJU (Penerangan 5)", icon: "💡" },
+                ].map((f) => (
+                  <button
+                    key={f.key}
+                    onClick={() => toggleFilter(f.key as keyof typeof filters)}
+                    style={{
+                      display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%",
+                      background: filters[f.key as keyof typeof filters] ? "#f8fafc" : "#ffffff", border: "1px solid #e2e8f0",
+                      borderRadius: "10px", padding: "10px 14px", fontSize: "13px", fontWeight: "600",
+                      color: filters[f.key as keyof typeof filters] ? "#0f172a" : "#94a3b8", cursor: "pointer", textAlign: "left",
+                      transition: "background 0.2s"
+                    }}
+                  >
+                    <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>{f.icon} {f.label}</span>
+                    <span style={{ color: filters[f.key as keyof typeof filters] ? "#16a34a" : "#cbd5e1" }}>{filters[f.key as keyof typeof filters] ? "✓" : "○"}</span>
+                  </button>
+                ))}
+              </div>
             </div>
-            <div>
-              <span style={{ fontSize: '10px', fontWeight: 'bold', color: '#16a34a', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                Ketua {selectedRt.toUpperCase()}
+          </div>
+
+          {/* KOLOM 2: BAGIAN TENGAH (PETA INTERAKTIF) */}
+          <div style={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "16px", position: "relative", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)" }}>
+            
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px", padding: "0 4px" }}>
+              <div style={{ fontSize: "15px", fontWeight: "700", color: "#0f172a", display: "flex", alignItems: "center", gap: "6px" }}>
+                <span>🗺️</span> Peta Zonasi & Batas Wilayah RW 08
+              </div>
+              <span style={{ background: "#f0fdf4", color: "#16a34a", border: "1px solid #bbf7d0", padding: "4px 10px", borderRadius: "20px", fontSize: "11px", fontWeight: "600", display: "flex", alignItems: "center", gap: "6px" }}>
+                <span style={{ width: "6px", height: "6px", background: "#16a34a", borderRadius: "50%", opacity: pulseAnim ? 1 : 0.4, transition: "opacity 0.6s" }}></span> Live Status Online
               </span>
-              <h4 style={{ fontSize: '15px', fontWeight: 'bold', color: '#0f172a', margin: '2px 0 0 0' }}>{currentInfo.ketua}</h4>
-              <span style={{ fontSize: '12px', color: '#64748b' }}>📞 {currentInfo.telp}</span>
             </div>
+
+            {/* Container Peta */}
+            <div style={{ position: "relative", width: "100%", borderRadius: "12px", overflow: "hidden", border: "1px solid #e2e8f0", background: "#000" }}>
+              
+              <img 
+                src="/maps.jpeg" 
+                alt="Peta Wilayah RW 08" 
+                style={{ width: "100%", height: "auto", display: "block", opacity: "0.95" }}
+              />
+
+              {/* Logo Kiri Bawah */}
+              <div style={{ position: "absolute", bottom: "16px", left: "16px", background: "rgba(255, 255, 255, 0.92)", backdropFilter: "blur(4px)", padding: "10px 14px", borderRadius: "10px", border: "1px solid #cbd5e1", display: "flex", alignItems: "center", gap: "10px", boxShadow: "0 4px 12px rgba(0,0,0,0.15)", zIndex: 10 }}>
+                <div style={{ width: "36px", height: "36px", background: "#3b82f6", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", color: "#fff", fontSize: "18px", fontWeight: "bold" }}>
+                  🛡️
+                </div>
+                <div>
+                  <div style={{ fontSize: "11px", fontWeight: "800", color: "#0f172a" }}>RW 08 CIBANGKONG</div>
+                  <div style={{ fontSize: "9px", fontWeight: "600", color: "#64748b" }}>Kec. Batununggal, Bandung</div>
+                </div>
+              </div>
+
+              {/* 1. MARKER RT (Dengan Efek Hover & Animasi Aktif) */}
+              {filters.batas && (
+                <>
+                  {[
+                    { id: "rt01", label: "RT 01", top: "70%", left: "22%", color: "#16a34a" },
+                    { id: "rt02", label: "RT 02", top: "45%", left: "15%", color: "#dc2626" },
+                    { id: "rt03", label: "RT 03", top: "63%", left: "50%", color: "#16a34a" },
+                    { id: "rt04", label: "RT 04", top: "37%", left: "43%", color: "#2563eb" },
+                    { id: "rt05", label: "RT 05", top: "56%", left: "88%", color: "#e11d48" },
+                    { id: "rt06", label: "RT 06", top: "43%", left: "86%", color: "#16a34a" },
+                    { id: "rt07", label: "RT 07", top: "27%", left: "71%", color: alarmActive ? "#dc2626" : "#16a34a" },
+                  ].map((rt) => {
+                    const isActive = activeRT === rt.id;
+                    const isAlarmRT = rt.id === "rt07" && alarmActive;
+                    return (
+                      <div 
+                        key={rt.id}
+                        onClick={() => setActiveRT(rt.id)} 
+                        title={rt.label} 
+                        style={{ 
+                          position: "absolute", 
+                          top: rt.top, 
+                          left: rt.left, 
+                          transform: `translate(-50%, -100%) ${isActive ? "scale(1.1)" : "scale(1)"}`, 
+                          cursor: "pointer", 
+                          zIndex: isActive ? 5 : 2, 
+                          display: "flex", 
+                          flexDirection: "column", 
+                          alignItems: "center",
+                          transition: "transform 0.2s ease"
+                        }}
+                      >
+                        <div style={{ 
+                          background: isActive ? "#2563eb" : rt.color, 
+                          color: "#fff", 
+                          padding: "5px 10px", 
+                          borderRadius: "8px", 
+                          fontSize: "10px", 
+                          fontWeight: "bold", 
+                          boxShadow: isAlarmRT && pulseAnim ? "0 0 15px #dc2626" : "0 4px 10px rgba(0,0,0,0.3)", 
+                          border: "2px solid #fff", 
+                          whiteSpace: "nowrap" 
+                        }}>
+                          📍 {rt.label} {isAlarmRT ? "⚠️" : ""}
+                        </div>
+                        <div style={{ width: 0, height: 0, borderLeft: "5px solid transparent", borderRight: "5px solid transparent", borderTop: `7px solid ${isActive ? "#2563eb" : rt.color}`, marginTop: "-1px" }}></div>
+                      </div>
+                    );
+                  })}
+                </>
+              )}
+
+              {/* 2. MARKER FASILITAS UMUM */}
+              {filters.fasilitas && (
+                <>
+                  <div title="SDN Gumuruh" style={{ position: "absolute", top: "60%", left: "38%", transform: "translate(-50%, -100%)", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <div style={{ background: "#059669", color: "#fff", padding: "5px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: "bold", border: "2px solid #ffffff", boxShadow: "0 4px 10px rgba(0,0,0,0.3)", whiteSpace: "nowrap" }}>
+                      🏫 SDN Gumuruh
+                    </div>
+                    <div style={{ width: 0, height: 0, borderLeft: "5px solid transparent", borderRight: "5px solid transparent", borderTop: "7px solid #059669", marginTop: "-1px" }}></div>
+                  </div>
+
+                  <div title="Gedung GSG" style={{ position: "absolute", top: "35%", left: "16%", transform: "translate(-50%, -100%)", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <div style={{ background: "#4f46e5", color: "#fff", padding: "5px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: "bold", border: "2px solid #ffffff", boxShadow: "0 4px 10px rgba(0,0,0,0.3)", whiteSpace: "nowrap" }}>
+                      🏢 Gedung GSG
+                    </div>
+                    <div style={{ width: 0, height: 0, borderLeft: "5px solid transparent", borderRight: "5px solid transparent", borderTop: "7px solid #4f46e5", marginTop: "-1px" }}></div>
+                  </div>
+
+                  <div title="Masjid Al-Hidayah" style={{ position: "absolute", top: "50%", left: "55%", transform: "translate(-50%, -100%)", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <div style={{ background: "#0d9488", color: "#fff", padding: "5px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: "bold", border: "2px solid #ffffff", boxShadow: "0 4px 10px rgba(0,0,0,0.3)", whiteSpace: "nowrap" }}>
+                      🕌 Masjid
+                    </div>
+                    <div style={{ width: 0, height: 0, borderLeft: "5px solid transparent", borderRight: "5px solid transparent", borderTop: "7px solid #0d9488", marginTop: "-1px" }}></div>
+                  </div>
+
+                  <div title="Masjid Al-Barokah RT 02" style={{ position: "absolute", top: "50%", left: "21%", transform: "translate(-50%, -100%)", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <div style={{ background: "#0d9488", color: "#fff", padding: "5px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: "bold", border: "2px solid #ffffff", boxShadow: "0 4px 10px rgba(0,0,0,0.3)", whiteSpace: "nowrap" }}>
+                      🕌 Masjid
+                    </div>
+                    <div style={{ width: 0, height: 0, borderLeft: "5px solid transparent", borderRight: "5px solid transparent", borderTop: "7px solid #0d9488", marginTop: "-1px" }}></div>
+                  </div>
+
+                  <div title="Masjid Al-Mubarok RT 05" style={{ position: "absolute", top: "45%", left: "75%", transform: "translate(-50%, -100%)", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <div style={{ background: "#0d9488", color: "#fff", padding: "5px 10px", borderRadius: "8px", fontSize: "10px", fontWeight: "bold", border: "2px solid #ffffff", boxShadow: "0 4px 10px rgba(0,0,0,0.3)", whiteSpace: "nowrap" }}>
+                      🕌 Masjid 3 (RT 05)
+                    </div>
+                    <div style={{ width: 0, height: 0, borderLeft: "5px solid transparent", borderRight: "5px solid transparent", borderTop: "7px solid #0d9488", marginTop: "-1px" }}></div>
+                  </div>
+                </>
+              )}
+
+              {/* 3. MARKER CCTV PENGAWAS (Berkedip hidup) */}
+              {filters.cctv && (
+                <>
+                  {[
+                    { title: "CCTV-01", top: "48%", left: "35%" },
+                    { title: "CCTV-02", top: "68%", left: "48%" },
+                    { title: "CCTV-03", top: "35%", left: "73%" },
+                    { title: "CCTV-04", top: "38%", left: "14%" },
+                    { title: "CCTV-05", top: "50%", left: "80%" },
+                  ].map((c, i) => (
+                    <div key={i} title={c.title} style={{ position: "absolute", top: c.top, left: c.left, transform: "translate(-50%, -100%)", zIndex: 3, display: "flex", flexDirection: "column", alignItems: "center" }}>
+                      <div style={{ 
+                        background: "#0f172a", 
+                        color: "#38bdf8", 
+                        padding: "4px 8px", 
+                        borderRadius: "6px", 
+                        fontSize: "9px", 
+                        fontWeight: "bold", 
+                        border: "1px solid #38bdf8", 
+                        boxShadow: pulseAnim ? "0 0 8px rgba(56, 189, 248, 0.6)" : "0 2px 6px rgba(0,0,0,0.4)", 
+                        whiteSpace: "nowrap",
+                        transition: "box-shadow 0.5s ease"
+                      }}>
+                        📷 {c.title}
+                      </div>
+                      <div style={{ width: 0, height: 0, borderLeft: "4px solid transparent", borderRight: "4px solid transparent", borderTop: "6px solid #0f172a", marginTop: "-1px" }}></div>
+                    </div>
+                  ))}
+                </>
+              )}
+
+              {/* 4. MARKER PJU / PENERANGAN */}
+              {filters.pju && (
+                <>
+                  {[
+                    { title: "PJU-A1", top: "59%", left: "25%" },
+                    { title: "PJU-A2", top: "65%", left: "59%" },
+                    { title: "PJU-A3", top: "56%", left: "79%" },
+                    { title: "PJU-A4", top: "41%", left: "45%" },
+                    { title: "PJU-A5", top: "27%", left: "80%" },
+                  ].map((p, i) => (
+                    <div key={i} title={p.title} style={{ position: "absolute", top: p.top, left: p.left, transform: "translate(-50%, -100%)", zIndex: 3, display: "flex", flexDirection: "column", alignItems: "center" }}>
+                      <div style={{ background: "#f59e0b", color: "#fff", padding: "4px 8px", borderRadius: "6px", fontSize: "9px", fontWeight: "bold", border: "1px solid #fff", boxShadow: "0 2px 6px rgba(0,0,0,0.4)", whiteSpace: "nowrap" }}>
+                        💡 {p.title}
+                      </div>
+                      <div style={{ width: 0, height: 0, borderLeft: "4px solid transparent", borderRight: "4px solid transparent", borderTop: "6px solid #f59e0b", marginTop: "-1px" }}></div>
+                    </div>
+                  ))}
+                </>
+              )}
+
+            </div>
+
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '13px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px dashed #f1f5f9' }}>
-              <span style={{ color: '#64748b' }}>👥 Total Warga</span>
-              <strong style={{ color: '#0f172a' }}>{currentInfo.warga}</strong>
+          {/* KOLOM 3: SIDEBAR DETAIL RT TERPILIH */}
+          <div style={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "20px", display: "flex", flexDirection: "column", gap: "20px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)" }}>
+            
+            {/* Profil Ketua RT */}
+            <div style={{ display: "flex", alignItems: "center", gap: "14px", borderBottom: "1px solid #f1f5f9", paddingBottom: "16px" }}>
+              <div style={{ width: "54px", height: "54px", borderRadius: "50%", background: "#e2e8f0", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "22px", overflow: "hidden", border: "2px solid #3b82f6" }}>
+                👨‍💼
+              </div>
+              <div>
+                <div style={{ fontSize: "11px", fontWeight: "700", color: "#3b82f6", textTransform: "uppercase" }}>KETUA {current.nama}</div>
+                <div style={{ fontSize: "15px", fontWeight: "800", color: "#0f172a" }}>{current.ketua}</div>
+                <div style={{ fontSize: "12px", color: "#64748b", marginTop: "2px" }}>📞 {current.kontak}</div>
+              </div>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px dashed #f1f5f9' }}>
-              <span style={{ color: '#64748b' }}>🏠 Kepala Keluarga</span>
-              <strong style={{ color: '#0f172a' }}>{currentInfo.kk}</strong>
+
+            {/* Statistik Detail RT */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {[
+                { label: "Total Warga", val: current.warga, icon: "👥" },
+                { label: "Kepala Keluarga", val: current.kk, icon: "🏠" },
+                { label: "CCTV Aktif", val: current.cctv, icon: "📷" },
+                { label: "Titik PJU", val: current.pju, icon: "💡" },
+              ].map((stat, idx) => (
+                <div key={idx} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#f8fafc", padding: "10px 14px", borderRadius: "10px", border: "1px solid #f1f5f9" }}>
+                  <span style={{ fontSize: "13px", color: "#4b5563", display: "flex", alignItems: "center", gap: "8px" }}>{stat.icon} {stat.label}</span>
+                  <span style={{ fontSize: "14px", fontWeight: "700", color: "#0f172a" }}>{stat.val}</span>
+                </div>
+              ))}
+
+              {/* Status Wilayah */}
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#f8fafc", padding: "10px 14px", borderRadius: "10px", border: "1px solid #f1f5f9" }}>
+                <span style={{ fontSize: "13px", color: "#4b5563", display: "flex", alignItems: "center", gap: "8px" }}>🛡️ Status Wilayah</span>
+                <span style={{ 
+                  fontSize: "13px", 
+                  fontWeight: "700", 
+                  color: (activeRT === "rt07" && alarmActive) ? "#dc2626" : current.status === "Aman" ? "#16a34a" : "#ca8a04", 
+                  background: (activeRT === "rt07" && alarmActive) ? "#fef2f2" : current.status === "Aman" ? "#f0fdf4" : "#fefce8", 
+                  padding: "2px 8px", 
+                  borderRadius: "6px" 
+                }}>
+                  {(activeRT === "rt07" && alarmActive) ? "Darurat" : current.status}
+                </span>
+              </div>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px dashed #f1f5f9' }}>
-              <span style={{ color: '#64748b' }}>📹 CCTV Aktif</span>
-              <strong style={{ color: '#0f172a' }}>{currentInfo.cctv}</strong>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px dashed #f1f5f9' }}>
-              <span style={{ color: '#64748b' }}>💡 Titik PJU</span>
-              <strong style={{ color: '#0f172a' }}>{currentInfo.pju}</strong>
-            </div>
+
           </div>
 
-          <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #f1f5f9' }}>
-            <span style={{ fontSize: '11px', color: '#64748b', display: 'block', marginBottom: '4px' }}>Fasilitas Utama:</span>
-            <strong style={{ fontSize: '13px', color: '#16a34a', display: 'block', marginBottom: '12px' }}>🌱 {currentInfo.fasilitas}</strong>
-
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#f8fafc', padding: '10px 12px', borderRadius: '8px' }}>
-              <span style={{ fontSize: '12px', color: '#64748b' }}>Status Wilayah</span>
-              <span style={{ fontSize: '11px', fontWeight: 'bold', backgroundColor: '#dcfce7', color: '#15803d', padding: '4px 8px', borderRadius: '6px' }}>
-                {currentInfo.status}
-              </span>
-            </div>
-          </div>
         </div>
 
       </div>
-
-      {/* POP-UP MODAL INFORMASI DARURAT */}
-      {showPopup && (
-        <div style={{
-          position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
-          backgroundColor: 'rgba(15, 23, 42, 0.6)', backdropFilter: 'blur(4px)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 9999
-        }}>
-          <div style={{
-            backgroundColor: '#ffffff', padding: '24px', borderRadius: '16px', width: '400px', maxWidth: '90%',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', borderTop: '6px solid #ef4444', animation: 'fadeInDown 0.2s ease'
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-              <h3 style={{ fontSize: '16px', fontWeight: 'bold', color: '#b91c1c', margin: 0 }}>🚨 Pusat Alarm & Darurat Warga</h3>
-              <button 
-                onClick={() => setShowPopup(false)}
-                style={{ background: 'none', border: 'none', fontSize: '18px', fontWeight: 'bold', cursor: 'pointer', color: '#64748b' }}
-              >
-                ✕
-              </button>
-            </div>
-
-            <p style={{ fontSize: '13px', color: '#475569', lineHeight: '1.5', margin: '0 0 16px 0' }}>
-              Status keamanan seluruh RT di RW 08 saat ini terpantau <strong>AMAN</strong>. Belum ada laporan insiden darurat atau tombol panik yang ditekan warga.
-            </p>
-
-            <div style={{ backgroundColor: '#f8fafc', padding: '12px', borderRadius: '8px', marginBottom: '20px', fontSize: '12px', color: '#334155' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
-                <span>📞 Hotline Satpam RW:</span>
-                <strong>0812-9988-7766</strong>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>🚑 Ambulans Siaga:</span>
-                <strong>Aktif (2 Unit)</strong>
-              </div>
-            </div>
-
-            <button 
-              onClick={() => triggerNotification('Sinyal Alarm Darurat berhasil disiarkan ke seluruh pengurus RT!')}
-              style={{
-                width: '100%', padding: '12px', backgroundColor: '#ef4444', color: '#ffffff',
-                border: 'none', borderRadius: '10px', fontWeight: 'bold', fontSize: '13px', cursor: 'pointer'
-              }}
-            >
-              Bunyikan Alarm Tes / Darurat
-            </button>
-          </div>
-        </div>
-      )}
-    </section>
+    </div>
   );
 }

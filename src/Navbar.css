@@ -1,101 +1,161 @@
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html{
-  scroll-behavior:smooth;
+html {
+  scroll-behavior: smooth;
 }
 
-.navbar-container{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  z-index:9999;
-  background:transparent;
-  padding:16px 20px;
+.navbar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  background: transparent;
+  padding: 16px 20px;
 }
 
-.navbar-wrapper{
-  max-width:1400px;
-  margin:auto;
-  height:82px;
-  background:#fff;
-  border-radius:18px;
-  box-shadow:0 8px 30px rgba(0,0,0,.08);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 30px;
+.navbar-wrapper {
+  max-width: 1400px;
+  margin: auto;
+  height: 82px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  position: relative;
 }
 
-.navbar-logo{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  text-decoration:none;
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
 }
 
-.logo-img{
-  width:54px;
-  height:54px;
-  border-radius:50%;
-  object-fit:cover;
+.logo-img {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
-.logo-title h2{
-  margin:0;
-  color:#183153;
-  font-size:22px;
-  font-weight:700;
+.logo-title h2 {
+  margin: 0;
+  color: #183153;
+  font-size: 22px;
+  font-weight: 700;
 }
 
-.navbar-menu{
-  display:flex;
-  align-items:center;
-  gap:34px;
-  list-style:none;
+/* MENU DESKTOP */
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  list-style: none;
 }
 
-.navbar-menu li{
-  list-style:none;
+.navbar-menu li {
+  list-style: none;
 }
 
-.navbar-menu a{
-  text-decoration:none;
-  color:#334155;
-  font-size:15px;
-  font-weight:600;
-  transition:.2s;
+.navbar-menu a {
+  text-decoration: none;
+  color: #334155;
+  font-size: 15px;
+  font-weight: 600;
+  transition: .2s;
+  white-space: nowrap;
 }
 
-.navbar-menu a:hover{
-  color:#2563eb;
+.navbar-menu a:hover {
+  color: #2563eb;
 }
 
-.btn-login{
-  border:none;
-  background:#2563eb;
-  color:#fff;
-  height:48px;
-  padding:0 22px;
-  border-radius:12px;
-  font-size:15px;
-  font-weight:600;
-  cursor:pointer;
-  transition:.2s;
+.btn-login {
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  height: 48px;
+  padding: 0 22px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .2s;
+  white-space: nowrap;
 }
 
-.btn-login:hover{
-  background:#1d4ed8;
+.btn-login:hover {
+  background: #1d4ed8;
 }
 
-@media (max-width:1000px){
+/* ELEMENT MOBILE (SEMBUNYI DI DESKTOP) */
+.hamburger-btn {
+  display: none;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  font-size: 22px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
 
-  .navbar-menu{
-    display:none;
+.mobile-login-item {
+  display: none;
+}
+
+/* =========================================== */
+/* RESPONSIVE versi HP / TABLET (<= 1000px)   */
+/* =========================================== */
+@media (max-width: 1000px) {
+  .hamburger-btn {
+    display: flex; /* Tombol garis tiga muncul */
   }
 
+  .desktop-only {
+    display: none !important; /* Tombol login desktop disembunyikan */
+  }
+
+  .mobile-login-item {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .mobile-login-item .btn-login {
+    width: 100%;
+  }
+
+  /* DROPDOWN MENU DI HP */
+  .navbar-menu {
+    display: none; /* Sembunyi default */
+    position: absolute;
+    top: 92px; /* Posisi melayang tepat di bawah navbar */
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    gap: 18px;
+    box-sizing: border-box;
+  }
+
+  /* KETIKA HAMBURGER DIKLIK */
+  .navbar-menu.active {
+    display: flex;
+  }
 }

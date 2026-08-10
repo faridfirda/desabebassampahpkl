@@ -1,11 +1,11 @@
 import React from 'react';
-import { Lock, ShieldCheck, Leaf, ArrowRight } from 'lucide-react';
+import { Lock, ShieldCheck, Leaf, MapPin } from 'lucide-react';
 
 export default function HeroSection() {
   return (
     <div className="min-h-screen bg-slate-950 text-white font-sans">
       {/* --- Navbar --- */}
-      <header className="flex items-center justify-between px-8 py-4 bg-white text-slate-900 shadow-md">
+      <header className="flex items-center justify-between px-8 py-4 bg-white text-slate-900 shadow-md sticky top-0 z-50">
         <div className="flex items-center space-x-3">
           <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-500 to-green-600 flex items-center justify-center font-bold text-xs text-white shadow">
             RW 08
@@ -41,20 +41,20 @@ export default function HeroSection() {
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center py-12">
           
-          {/* Kolom Kiri: Copywriting & Narasi Utama (Sesuai Task 1 Revisi) */}
+          {/* Kolom Kiri: Penekanan Jadwal Bank Sampah & Tombol Pelaporan */}
           <div className="lg:col-span-7 space-y-6">
             <div className="inline-flex items-center space-x-2 bg-emerald-950/80 border border-emerald-700/60 text-emerald-300 px-3 py-1 rounded-full text-xs font-medium backdrop-blur-md">
               <ShieldCheck size={14} className="text-emerald-400" />
-              <span>Gerakan RW 08 Cibangkong Bersih & Hijau</span>
+              <span>Desa Bebas Sampah RW 08 Cibangkong</span>
             </div>
 
             <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
-              Gotong Royong Wujudkan <br />
-              <span className="text-emerald-400">RW 08 Cibangkong</span> Asri & Clean
+              Jadwal Bank Sampah & <br />
+              <span className="text-emerald-400">Pengelolaan Kebersihan</span>
             </h1>
 
             <p className="text-slate-300 text-base lg:text-lg max-w-xl leading-relaxed">
-              Selamat datang warga RW 08 Cibangkong! Mari bersama-sama kobarkan semangat gotong royong menjaga kebersihan lingkungan, pilah sampah dari rumah, dan sukseskan program Bank Sampah demi lingkungan yang sehat dan berkelanjutan.
+              Akses cepat jadwal penimbangan sampah, titik kumpul warga, edukasi daur ulang, serta layanan pelaporan lingkungan secara langsung untuk RW 08 yang lebih bersih dan asri.
             </p>
 
             <div className="pt-2 flex flex-wrap gap-4 items-center">
@@ -63,14 +63,14 @@ export default function HeroSection() {
                 className="flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-emerald-600/30 transition transform hover:-translate-y-0.5"
               >
                 <Leaf size={18} />
-                <span>Program Bank Sampah</span>
+                <span>Jadwal Bank Sampah</span>
               </a>
               <a 
-                href="#berita"
-                className="flex items-center space-x-2 bg-slate-800/80 hover:bg-slate-800 text-slate-200 border border-slate-700 px-6 py-3 rounded-xl font-medium transition"
+                href="#peta"
+                className="flex items-center space-x-2 bg-emerald-500 hover:bg-emerald-600 text-slate-950 px-6 py-3 rounded-xl font-bold shadow-lg transition transform hover:-translate-y-0.5"
               >
-                <span>Kegiatan Kebersihan</span>
-                <ArrowRight size={16} />
+                <MapPin size={18} />
+                <span>Lapor Sampah Warga</span>
               </a>
             </div>
           </div>

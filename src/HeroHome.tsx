@@ -1,213 +1,158 @@
-import React, { useState, useEffect } from 'react';
-import gerbangFoto from './gerbang.jpeg';
+import React, { useState } from "react";
+import gerbangImg from "../src/gerbang.jpeg";
 
-interface HeroHomeProps {
-  onLoginClick?: () => void;
-}
+export default function HeroHome({ onLoginClick }) {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
 
-export default function HeroHome({ onLoginClick }: HeroHomeProps) {
-  // State pikeun Target Minggu Ini (Dinamis)
-  const [targetPersen, setTargetPersen] = useState<string>('85%');
-  const [targetLabel, setTargetLabel] = useState<string>('Target Minggu Ini');
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setMousePos({ x, y });
+  };
 
-  useEffect(() => {
-    const loadTargetData = () => {
-      const savedTarget = localStorage.getItem("rw_target");
-      if (savedTarget) {
-        try {
-          const parsed = JSON.parse(savedTarget);
-          if (parsed.persen) setTargetPersen(parsed.persen);
-          if (parsed.label) setTargetLabel(parsed.label);
-        } catch (e) {
-          setTargetPersen(savedTarget);
-        }
-      }
-    };
-
-    loadTargetData();
-
-    window.addEventListener("storage", loadTargetData);
-    window.addEventListener("local-storage-update", loadTargetData);
-
-    return () => {
-      window.removeEventListener("storage", loadTargetData);
-      window.removeEventListener("local-storage-update", loadTargetData);
-    };
-  }, []);
-
-  // --- ANIMASI HANDLER FOR CARD TARGET ---
-  const handleMouseEnterCard = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget;
-    const icon = card.querySelector('.target-icon') as HTMLElement;
-    
-    // Animasi Card
-    card.style.transform = 'translateY(-8px) scale(1.05)';
-    card.style.boxShadow = '0 16px 30px -5px rgba(22, 163, 74, 0.3)';
-    card.style.borderColor = '#22c55e';
-
-    // Animasi Ikon ♻️
-    if (icon) {
-      icon.style.transform = 'rotate(180deg) scale(1.15)';
-      icon.style.backgroundColor = '#bbf7d0';
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
     }
-  };
-
-  const handleMouseLeaveCard = (e: React.MouseEvent<HTMLDivElement>) => {
-    const card = e.currentTarget;
-    const icon = card.querySelector('.target-icon') as HTMLElement;
-
-    // Reset Card
-    card.style.transform = 'translateY(0px) scale(1)';
-    card.style.boxShadow = '0 8px 20px rgba(0,0,0,0.12)';
-    card.style.borderColor = '#f1f5f9';
-
-    // Reset Ikon
-    if (icon) {
-      icon.style.transform = 'rotate(0deg) scale(1)';
-      icon.style.backgroundColor = '#e6f4ea';
-    }
-  };
-
-  // --- ANIMASI HANDLER FOR GAMBAR GERBANG ---
-  const handleMouseEnterImageFrame = (e: React.MouseEvent<HTMLDivElement>) => {
-    const img = e.currentTarget.querySelector('img');
-    if (img) img.style.transform = 'scale(1.08)';
-  };
-
-  const handleMouseLeaveImageFrame = (e: React.MouseEvent<HTMLDivElement>) => {
-    const img = e.currentTarget.querySelector('img');
-    if (img) img.style.transform = 'scale(1)';
   };
 
   return (
-    <div style={{ width: '100%', backgroundColor: '#ffffff', scrollBehavior: 'smooth' }}>
-      
-      {/* HERO SECTION UTAMA */}
-      <section 
-        id="beranda" 
-        style={{ 
-          width: '100%', 
-          minHeight: '100vh', 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center', 
-          padding: '100px 24px 60px 24px', 
-          boxSizing: 'border-box',
-          scrollMarginTop: '20px' 
-        }}
-      >
-        <div style={{ width: '100%', maxWidth: '1320px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))', gap: '50px', alignItems: 'center' }}>
+    <div style={{ background: "#ffffff", minHeight: "100vh", padding: "40px 24px", fontFamily: "'Inter', sans-serif", color: "#1f2937" }}>
+      <div style={{ maxWidth: "1280px", margin: "0 auto", display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: "40px", alignItems: "center" }}>
+        
+        {/* KOLOM KIRI */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           
-          {/* BAGIAN TEKS */}
           <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0', padding: '8px 16px', borderRadius: '9999px', fontSize: '14px', marginBottom: '20px', color: '#16a34a', fontWeight: '600' }}>
-              <span>🌿</span> Menuju Kawasan Zero Waste
+            <span style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#f0fdf4", color: "#16a34a", border: "1px solid #bbf7d0", padding: "8px 16px", borderRadius: "30px", fontSize: "13px", fontWeight: "600" }}>
+              🌱 Menuju Kawasan Zero Waste
+            </span>
+          </div>
+
+          <h1 style={{ fontSize: "42px", fontWeight: "800", lineHeight: "1.15", margin: 0, color: "#111827" }}>
+            Wujudkan RW 08 <br />
+            <span style={{ color: "#16a34a" }}>Kawasan Bebas Sampah</span>
+          </h1>
+
+          <p style={{ fontSize: "15px", color: "#4b5563", lineHeight: "1.6", margin: 0 }}>
+            Gerakan sadar lingkungan untuk menciptakan RW 08 Cibangkong yang bersih, sehat, dan asri. Bersama kita kelola sampah mandiri mulai dari rumah melalui pemilahan yang bijak dan berkelanjutan.
+          </p>
+
+          <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "20px", display: "flex", flexDirection: "column", gap: "10px" }}>
+            <div style={{ fontSize: "13px", fontWeight: "700", color: "#16a34a", display: "flex", alignItems: "center", gap: "8px" }}>
+              📅 JADWAL OPERASIONAL BANK SAMPAH:
             </div>
-
-            <h1 style={{ fontSize: '46px', fontWeight: '800', lineHeight: '1.2', marginBottom: '20px', color: '#0f172a' }}>
-              Wujudkan RW 08 <br />
-              <span style={{ color: '#16a34a' }}>Kawasan Bebas Sampah</span>
-            </h1>
-
-            <p style={{ color: '#475569', fontSize: '17px', lineHeight: '1.6', marginBottom: '32px' }}>
-              Gerakan sadar lingkungan untuk menciptakan RW 08 Cibangkong yang bersih, sehat, dan asri. Bersama kita kelola sampah mandiri mulai dari rumah melalui pemilahan yang bijak dan berkelanjutan.
-            </p>
-
-            <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap' }}>
-              <a 
-                href="#bank-sampah"
-                onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
-                onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0px)'}
-                style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', backgroundColor: '#16a34a', color: '#ffffff', padding: '14px 28px', borderRadius: '12px', textDecoration: 'none', fontWeight: '600', fontSize: '15px', boxShadow: '0 6px 15px -3px rgba(22, 163, 74, 0.25)', transition: 'transform 0.2s ease' }}
-              >
-                ♻️ Mulai Kelola Sampah
-              </a>
-
-              <button 
-                type="button"
-                onClick={onLoginClick}
-                onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-3px)'}
-                onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0px)'}
-                style={{ display: 'inline-flex', alignItems: 'center', gap: '10px', backgroundColor: '#2563eb', color: '#ffffff', padding: '14px 28px', borderRadius: '12px', border: 'none', cursor: 'pointer', fontWeight: '600', fontSize: '15px', boxShadow: '0 6px 15px -3px rgba(37, 99, 235, 0.25)', transition: 'transform 0.2s ease' }}
-              >
-                🔒 Login Admin
-              </button>
+            <div style={{ fontSize: "14px", fontWeight: "700", color: "#1f2937" }}>
+              Setiap Sabtu & Minggu | Pukul 08.00 - 12.00 WIB
+            </div>
+            <div style={{ fontSize: "12px", color: "#6b7280", display: "flex", alignItems: "center", gap: "6px", marginTop: "4px" }}>
+              💡 <strong style={{ color: "#374151" }}>Edukasi Pemilahan:</strong> Pisahkan sampah Organik, Anorganik, dan B3 sebelum disetor!
             </div>
           </div>
 
-          {/* BAGIAN GAMBAR & CARD TARGET */}
-          <div style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}>
-            <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '20px', padding: '14px', width: '100%', maxWidth: '580px', boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.1)' }}>
-              
-              {/* FRAME GAMBAR DENGAN HOVER ZOOM */}
-              <div 
-                onMouseEnter={handleMouseEnterImageFrame}
-                onMouseLeave={handleMouseLeaveImageFrame}
-                style={{ overflow: 'hidden', borderRadius: '16px', aspectRatio: '16/10', position: 'relative' }}
-              >
-                <img 
-                  src={gerbangFoto} 
-                  alt="Gerbang RW 08 Cibangkong" 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)' }}
-                />
+          {/* TOMBOL BERFUNGSI SESUAI ID DI APP.JSX */}
+          <div style={{ display: "flex", gap: "12px", marginTop: "8px", flexWrap: "wrap" }}>
+            
+            {/* Tombol Cek Bank Sampah -> Scroll ke id="bank-sampah" */}
+            <button 
+              onClick={() => scrollToSection("bank-sampah")}
+              style={{ 
+                background: "#16a34a", color: "#ffffff", padding: "12px 24px", borderRadius: "10px", 
+                fontWeight: "600", fontSize: "14px", border: "none", cursor: "pointer", display: "inline-flex", 
+                alignItems: "center", gap: "8px", boxShadow: "0 4px 12px rgba(22, 163, 74, 0.25)",
+                transition: "transform 0.2s ease"
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-2px)"}
+              onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}
+            >
+              ♻️ Cek Bank Sampah
+            </button>
 
-                {/* CARD TARGET MINGGU INI (MICRO-INTERACTIVE) */}
-                <div 
-                  onMouseEnter={handleMouseEnterCard}
-                  onMouseLeave={handleMouseLeaveCard}
-                  style={{ 
-                    position: 'absolute', 
-                    bottom: '16px', 
-                    left: '16px', 
-                    backgroundColor: '#ffffff', 
-                    padding: '10px 16px', 
-                    borderRadius: '14px', 
-                    boxShadow: '0 8px 20px rgba(0,0,0,0.12)', 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: '12px', 
-                    border: '1.5px solid #f1f5f9',
-                    cursor: 'pointer',
-                    userSelect: 'none',
-                    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)' 
-                  }}
-                >
-                  <div 
-                    className="target-icon"
-                    style={{ 
-                      width: '36px', 
-                      height: '36px', 
-                      borderRadius: '50%', 
-                      backgroundColor: '#e6f4ea', 
-                      display: 'flex', 
-                      alignItems: 'center', 
-                      justifyContent: 'center', 
-                      color: '#16a34a', 
-                      fontSize: '16px', 
-                      flexShrink: 0,
-                      transition: 'transform 0.4s ease, background-color 0.3s ease'
-                    }}
-                  >
-                    ♻️
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '11px', color: '#64748b', fontWeight: '600', lineHeight: '1.2' }}>{targetLabel}</div>
-                    <div style={{ fontSize: '16px', fontWeight: '800', color: '#0f172a', lineHeight: '1.2', marginTop: '2px' }}>{targetPersen}</div>
-                  </div>
-                </div>
+            {/* Tombol Lapor Sampah Warga -> Scroll ke id="pemberdayaan" atau section lain */}
+            <button 
+              onClick={() => scrollToSection("pemberdayaan")}
+              style={{ 
+                background: "#ef4444", color: "#ffffff", padding: "12px 24px", borderRadius: "10px", 
+                fontWeight: "600", fontSize: "14px", border: "none", cursor: "pointer", display: "inline-flex", 
+                alignItems: "center", gap: "8px", boxShadow: "0 4px 12px rgba(239, 68, 68, 0.25)",
+                transition: "transform 0.2s ease"
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-2px)"}
+              onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}
+            >
+              📢 Lapor Sampah Warga
+            </button>
 
-              </div>
+            {/* Tombol Login Admin -> Memanggil fungsi onLoginClick dari App.jsx */}
+            <button 
+              onClick={onLoginClick}
+              style={{ 
+                background: "#2563eb", color: "#ffffff", padding: "12px 24px", borderRadius: "10px", 
+                fontWeight: "600", fontSize: "14px", border: "none", cursor: "pointer", display: "inline-flex", 
+                alignItems: "center", gap: "8px", boxShadow: "0 4px 12px rgba(37, 99, 235, 0.25)",
+                transition: "transform 0.2s ease"
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-2px)"}
+              onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}
+            >
+              🔒 Login Admin
+            </button>
 
-              <div style={{ marginTop: '14px', fontSize: '14px', color: '#475569', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '500' }}>
-                <span>📍</span>
-                <span>Gapura Utama RW 08 Kelurahan Cibangkong</span>
-              </div>
-            </div>
           </div>
 
         </div>
-      </section>
 
+        {/* KOLOM KANAN (Gambar & Efek Mouse) */}
+        <div 
+          style={{ 
+            background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "20px", padding: "16px", 
+            boxShadow: isHovered ? "0 20px 40px rgba(22,163,74,0.15)" : "0 10px 25px rgba(0,0,0,0.05)", 
+            display: "flex", flexDirection: "column", gap: "12px",
+            transition: "box-shadow 0.3s ease, transform 0.3s ease",
+            transform: isHovered ? "translateY(-4px)" : "translateY(0)"
+          }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => {
+            setIsHovered(false);
+            setMousePos({ x: 0, y: 0 });
+          }}
+          onMouseMove={handleMouseMove}
+        >
+          <div style={{ position: "relative", width: "100%", borderRadius: "14px", overflow: "hidden" }}>
+            <img 
+              src={gerbangImg} 
+              alt="Gapura Utama RW 08 Kelurahan Cibangkong" 
+              style={{ 
+                width: "100%", height: "360px", objectFit: "cover", display: "block",
+                transform: `scale(${isHovered ? 1.08 : 1}) translate(${mousePos.x * 15}px, ${mousePos.y * 15}px)`,
+                transition: "transform 0.1s ease-out",
+              }}
+            />
+
+            <div style={{ 
+              position: "absolute", bottom: "16px", left: "16px", background: "rgba(255, 255, 255, 0.95)", 
+              backdropFilter: "blur(4px)", padding: "10px 16px", borderRadius: "12px", display: "flex", 
+              alignItems: "center", gap: "10px", boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+              transform: `translate(${mousePos.x * -10}px, ${mousePos.y * -10}px)`,
+              transition: "transform 0.1s ease-out"
+            }}>
+              <span style={{ fontSize: "18px" }}>♻️</span>
+              <div>
+                <div style={{ fontSize: "11px", color: "#6b7280", fontWeight: "600" }}>Target Minggu Ini</div>
+                <div style={{ fontSize: "16px", fontWeight: "800", color: "#16a34a" }}>85% (Bersih)</div>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: "#4b5563", padding: "4px 8px" }}>
+            <span>📍</span> Gapura Utama RW 08 Kelurahan Cibangkong, Kecamatan Batununggal
+          </div>
+        </div>
+
+      </div>
     </div>
   );
 }

@@ -1,12 +1,12 @@
 import { useState } from "react";
 
 import HeroHome from "./HeroHome";
-import BankSampah from "./BankSampah"; // Modul Bank Sampah Baru
-import InteractiveMap from "./InteractiveMap";
-import CommunitySection from "./CommunitySection"; // <-- 1. TAMBAHKAN IMPORT INI
+import BankSampah from "./BankSampah";
+import InteractiveMap from "./InteractiveMap"; // Kembali ke nama asal
+import CommunitySection from "./CommunitySection";
 import Navbar from "./Navbar";
 import AdminLogin from "./AdminLogin";
-import AdminDashboard from "./AdminDashboard";
+import AdminDashboard from "./AdminDashboard";  
 import Aparat from "./Aparat";
 import Statistik from "./Statistik";
 import BeritaKegiatan from "./BeritaKegiatan";
@@ -14,7 +14,6 @@ import UMKM from "./UMKM";
 import CCTV from "./CCTV";
 
 export default function App() {
-
   const [showLogin, setShowLogin] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
 
@@ -40,7 +39,6 @@ export default function App() {
         background: "#ffffff",
       }}
     >
-
       <Navbar 
         onLoginClick={() => setShowLogin(true)} 
       />
@@ -52,7 +50,7 @@ export default function App() {
         <HeroHome onLoginClick={() => setShowLogin(true)} />
       </section>
 
-      {/* 2. MODUL BANK SAMPAH (TASK 2 REVISI) */}
+      {/* 2. MODUL BANK SAMPAH */}
       <section id="bank-sampah">
         <BankSampah />
       </section>
@@ -62,9 +60,9 @@ export default function App() {
         <InteractiveMap />
       </section>
 
-      {/* 3B. PEMBERDAYAAN & GALERI WARGA (MEMENUHI CHECKLIST RUBRIK EVALUASI) */}
+      {/* 3B. PEMBERDAYAAN & GALERI WARGA */}
       <section id="pemberdayaan">
-        <CommunitySection /> {/* <-- 2. SIMPAN DI SINI */}
+        <CommunitySection />
       </section>
 
       {/* 4. APARAT RW */}
