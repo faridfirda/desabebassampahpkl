@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import HeroHome from "./HeroHome";
 import BankSampah from "./BankSampah";
-import InteractiveMap from "./InteractiveMap"; // Kembali ke nama asal
+import InteractiveMap from "./InteractiveMap";
 import CommunitySection from "./CommunitySection";
 import Navbar from "./Navbar";
 import AdminLogin from "./AdminLogin";
@@ -12,6 +12,7 @@ import Statistik from "./Statistik";
 import BeritaKegiatan from "./BeritaKegiatan";
 import UMKM from "./UMKM";
 import CCTV from "./CCTV";
+import Footer from "./components/Footer"; // Pastikan path file Footer kamu sesuai
 
 export default function App() {
   const [showLogin, setShowLogin] = useState(false);
@@ -37,6 +38,8 @@ export default function App() {
         width: "100%",
         minHeight: "100vh",
         background: "#ffffff",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       <Navbar 
@@ -45,51 +48,55 @@ export default function App() {
 
       <div style={{ height: "110px" }} />
 
-      {/* 1. BERANDA */}
-      <section id="beranda">
-        <HeroHome onLoginClick={() => setShowLogin(true)} />
-      </section>
+      <div style={{ flex: 1 }}>
+        {/* 1. BERANDA */}
+        <section id="beranda">
+          <HeroHome onLoginClick={() => setShowLogin(true)} />
+        </section>
 
-      {/* 2. MODUL BANK SAMPAH */}
-      <section id="bank-sampah">
-        <BankSampah />
-      </section>
+        {/* 2. MODUL BANK SAMPAH */}
+        <section id="bank-sampah">
+          <BankSampah />
+        </section>
 
-      {/* 3. PETA INTERAKTIF */}
-      <section id="peta">
-        <InteractiveMap />
-      </section>
+        {/* 3. PETA INTERAKTIF */}
+        <section id="peta">
+          <InteractiveMap />
+        </section>
 
-      {/* 3B. PEMBERDAYAAN & GALERI WARGA */}
-      <section id="pemberdayaan">
-        <CommunitySection />
-      </section>
+        {/* 3B. PEMBERDAYAAN & GALERI WARGA */}
+        <section id="pemberdayaan">
+          <CommunitySection />
+        </section>
 
-      {/* 4. APARAT RW */}
-      <section id="aparat">
-        <Aparat />
-      </section>
+        {/* 4. APARAT RW */}
+        <section id="aparat">
+          <Aparat />
+        </section>
 
-      {/* 5. STATISTIK LINGKUNGAN */}
-      <section id="statistik">
-        <Statistik />
-      </section>
+        {/* 5. STATISTIK LINGKUNGAN */}
+        <section id="statistik">
+          <Statistik />
+        </section>
 
-      {/* 6. BERITA & KEGIATAN LINGKUNGAN */}
-      <section id="berita">
-        <BeritaKegiatan />
-      </section>
+        {/* 6. BERITA & KEGIATAN LINGKUNGAN */}
+        <section id="berita">
+          <BeritaKegiatan />
+        </section>
 
-      {/* 7. LAPAK UMKM WARGA */}
-      <section id="umkm">
-        <UMKM />
-      </section>
+        {/* 7. LAPAK UMKM WARGA */}
+        <section id="umkm">
+          <UMKM />
+        </section>
 
-      {/* 8. MONITORING CCTV */}
-      <section id="cctv">
-        <CCTV />
-      </section>
+        {/* 8. MONITORING CCTV */}
+        <section id="cctv">
+          <CCTV />
+        </section>
+      </div>
 
+      {/* 9. FOOTER */}
+      <Footer />
     </div>
   );
 }
