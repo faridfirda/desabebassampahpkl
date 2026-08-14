@@ -1,23 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-interface Lokasi {
-  id: number;
-  nama: string;
-  jarak: string;
-  waktu: string;
-  tipe: string;
-  bg: string;
-  color: string;
-  icon: string;
-  detail: string;
-}
-
 export default function CommunitySection() {
   const [activeTab, setActiveTab] = useState('jadwal');
-  const [activeMarker, setActiveMarker] = useState<string | null>(null);
-  const [selectedLocation, setSelectedLocation] = useState<Lokasi | null>(null);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [namaPelapor, setNamaPelapor] = useState('');
   const [rtPelapor, setRtPelapor] = useState('RT 01');
   const [pesanLaporan, setPesanLaporan] = useState('');
@@ -34,27 +19,16 @@ export default function CommunitySection() {
       'Jumat',
       'Sabtu',
     ];
-
     const today = new Date().getDay();
     setCurrentDay(days[today]);
   }, []);
 
-  const scrollToSection = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    targetId: string
-  ) => {
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
-
     const element = document.getElementById(targetId);
-
     if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-
-    setMobileMenuOpen(false);
   };
 
   const jadwalBankSampah = [
@@ -102,194 +76,43 @@ export default function CommunitySection() {
     },
   ];
 
-  const mapMarkers = [
-    {
-      id: 'lokasi-saya',
-      name: '📍 Posisi Anda Sekarang',
-      top: '43%',
-      left: '48%',
-      desc: 'Estimasi titik lokasi Anda saat ini di Cibangkong.',
-      type: 'user',
-    },
-    {
-      id: 'rt01',
-      name: 'Wilayah RT 01',
-      top: '71%',
-      left: '23%',
-      desc: 'Zona permukiman warga RT 01.',
-      type: 'rt',
-    },
-    {
-      id: 'rt02',
-      name: 'Wilayah RT 02',
-      top: '44%',
-      left: '25%',
-      desc: 'Zona permukiman warga RT 02 ',
-      type: 'rt',
-    },
-    {
-      id: 'rt03',
-      name: 'Wilayah RT 03',
-      top: '67%',
-      left: '49%',
-      desc: 'Zona permukiman warga RT 03',
-      type: 'rt',
-    },
-    {
-      id: 'rt05',
-      name: 'Wilayah RT 05',
-      top: '59%',
-      left: '76%',
-      desc: 'Zona permukiman warga RT 05',
-      type: 'rt',
-    },
-    {
-      id: 'rt06',
-      name: 'Wilayah RT 06',
-      top: '50%',
-      left: '88%',
-      desc: 'Zona permukiman warga RT 06',
-      type: 'rt',
-    },
-    {
-      id: 'rt07',
-      name: 'Wilayah RT 07',
-      top: '31%',
-      left: '73%',
-      desc: 'Zona permukiman warga RT 07',
-      type: 'rt',
-    },
-    {
-      id: 'bank-rt02',
-      name: 'Bank Sampah rw 08',
-      top: '46%',
-      left: '37%',
-      desc: 'Pusat penimbangan sampah anorganik',
-      type: 'bank',
-    },
-    {
-      id: 'titik-rt03',
-      name: 'Titik Kumpul Utama RT 03',
-      top: '65%',
-      left: '59%',
-      desc: 'Titik kumpul pengumpulan sampah warga di area RT 03.',
-      type: 'titik',
-    },
-    {
-      id: 'sekolah',
-      name: '🏫 SDN Gumuruh RW 08',
-      top: '66%',
-      left: '39%',
-      desc: 'Pusat pendidikan dan edukasi anak-anak wilayah RW 08.',
-      type: 'sekolah',
-    },
-    {
-      id: 'masjid-1',
-      name: '🕌 Masjid Al-Barokah RW 08 (Utama)',
-      top: '54%',
-      left: '54%',
-      desc: 'Pusat kegiatan ibadah dan musyawarah warga',
-      type: 'masjid',
-    },
-    {
-      id: 'masjid-2',
-      name: '🕌 Masjid / Mushola Kedua',
-      top: '46%',
-      left: '75%',
-      desc: 'Pusat ibadah warga wilayah RT 05/06',
-      type: 'masjid',
-    },
-    {
-      id: 'masjid-3',
-      name: '🕌 Masjid / Mushola Ketiga',
-      top: '53%',
-      left: '21%',
-      desc: 'Pusat ibadah warga wilayah RT 02/03',
-      type: 'masjid',
-    },
-    {
-      id: 'gedung-ggs',
-      name: '🏢 Gedung GGS',
-      top: '38%',
-      left: '17%',
-      desc: 'Pusat fasilitas serbaguna Gedung GGS wilayah RW 08.',
-      type: 'gedung',
-    },
-  ];
-
-  const daftarLokasiTerdekat: Lokasi[] = [
-    {
-      id: 1,
-      nama: 'Titik Kumpul Utama RW 08',
-      jarak: '120m',
-      waktu: '2 menit',
-      tipe: 'titik',
-      bg: '#d1fae5',
-      color: '#059669',
-      icon: '🗑️',
-      detail:
-        'Titik kumpul tunggal dan pusat drop point pengumpulan sampah warga RW 08.',
-    },
-    {
-      id: 2,
-      nama: 'Bank Sampah RW 08',
-      jarak: '200m',
-      waktu: '3 menit',
-      tipe: 'bank',
-      bg: '#fef3c7',
-      color: '#d97706',
-      icon: '♻️',
-      detail:
-        'Pusat penukaran tabungan sampah menjadi sembako dan daur ulang mandiri.',
-    },
-    {
-      id: 3,
-      nama: 'Gedung GGS RW 08',
-      jarak: '150m',
-      waktu: '2 menit',
-      tipe: 'gedung',
-      bg: '#e0e7ff',
-      color: '#4f46e5',
-      icon: '🏢',
-      detail:
-        'Pusat fasilitas serbaguna warga untuk kegiatan pertemuan dan acara RW 08.',
-    },
-    {
-      id: 4,
-      nama: 'SDN Gumuruh RW 08',
-      jarak: '180m',
-      waktu: '3 menit',
-      tipe: 'sekolah',
-      bg: '#ede9fe',
-      color: '#7c3aed',
-      icon: '🏫',
-      detail:
-        'Pusat pendidikan dan edukasi anak-anak wilayah RW 08.',
-    },
-  ];
-
   const handleKirimLaporan = (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!namaPelapor || !pesanLaporan) return;
 
     const text = encodeURIComponent(
       `Halo Pengurus RW 08 Cibangkong,\n\nNama: ${namaPelapor}\nAsal: ${rtPelapor}\nLaporan: ${pesanLaporan}`
     );
 
-    window.open(
-      `https://wa.me/6281234567890?text=${text}`,
-      '_blank'
-    );
-
+    window.open(`https://wa.me/6281234567890?text=${text}`, '_blank');
     setStatusKirim(true);
 
     setTimeout(() => {
       setStatusKirim(false);
-    }, 4000);
+      setIsModalOpen(false);
+    }, 2000);
 
     setNamaPelapor('');
     setPesanLaporan('');
+  };
+
+  const actionButtonStyles: React.CSSProperties = {
+    backgroundColor: '#f1f5f9',
+    color: '#475569',
+    border: '1px solid #cbd5e1',
+    padding: '12px 20px',
+    borderRadius: '16px',
+    fontWeight: 'bold',
+    fontSize: '14px',
+    cursor: 'pointer',
+    boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+    transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '8px',
+    textDecoration: 'none',
+    boxSizing: 'border-box',
+    textAlign: 'center',
   };
 
   return (
@@ -297,17 +120,41 @@ export default function CommunitySection() {
       style={{
         width: '100%',
         minHeight: '100vh',
-        backgroundColor: '#f0fdf4',
+        backgroundColor: '#f8fafc',
         fontFamily: "'Plus Jakarta Sans', system-ui, sans-serif",
         boxSizing: 'border-box',
         cursor: 'default',
+        position: 'relative',
+        color: '#475569',
+        scrollBehavior: 'smooth',
       }}
     >
+      <style>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scaleIn {
+          from { opacity: 0; transform: scale(0.96); }
+          to { opacity: 1; transform: scale(1); }
+        }
+        .smooth-tab-content {
+          animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .modal-animation {
+          animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        html {
+          scroll-behavior: smooth;
+        }
+      `}</style>
+
       {/* NAVBAR */}
       <nav
         style={{
-          backgroundColor: '#ffffff',
-          borderBottom: '1px solid #bbf7d0',
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          backdropFilter: 'blur(8px)',
+          borderBottom: '1px solid #e2e8f0',
           position: 'sticky',
           top: 0,
           zIndex: 1000,
@@ -331,7 +178,7 @@ export default function CommunitySection() {
               gap: '8px',
               fontWeight: '800',
               fontSize: '18px',
-              color: '#14532d',
+              color: '#334155',
             }}
           >
             🌱 Desa Bebas Sampah RW 08
@@ -349,17 +196,13 @@ export default function CommunitySection() {
               onClick={(e) => scrollToSection(e, 'hero')}
               style={{
                 textDecoration: 'none',
-                color: '#166534',
+                color: '#64748b',
                 fontSize: '14px',
                 fontWeight: '600',
-                transition: 'all 0.2s',
+                transition: 'color 0.2s ease',
               }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.color = '#16a34a')
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.color = '#166534')
-              }
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#334155')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = '#64748b')}
             >
               Beranda
             </a>
@@ -369,87 +212,56 @@ export default function CommunitySection() {
               onClick={(e) => scrollToSection(e, 'jadwal')}
               style={{
                 textDecoration: 'none',
-                color: '#166534',
+                color: '#64748b',
                 fontSize: '14px',
                 fontWeight: '600',
-                transition: 'all 0.2s',
+                transition: 'color 0.2s ease',
               }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.color = '#16a34a')
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.color = '#166534')
-              }
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#334155')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = '#64748b')}
             >
               Jadwal & Edukasi
             </a>
 
-            <a
-              href="#peta"
-              onClick={(e) => scrollToSection(e, 'peta')}
+            <button
+              onClick={() => setIsModalOpen(true)}
               style={{
-                textDecoration: 'none',
-                color: '#166534',
-                fontSize: '14px',
-                fontWeight: '600',
-                transition: 'all 0.2s',
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.color = '#16a34a')
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.color = '#166534')
-              }
-            >
-              Peta Wilayah
-            </a>
-
-            <a
-              href="#pelaporan"
-              onClick={(e) => scrollToSection(e, 'pelaporan')}
-              style={{
-                backgroundColor: '#16a34a',
-                color: '#ffffff',
-                padding: '10px 18px',
-                borderRadius: '12px',
-                textDecoration: 'none',
+                backgroundColor: '#f1f5f9',
+                color: '#475569',
+                padding: '12px 20px',
+                borderRadius: '16px',
+                border: '1px solid #cbd5e1',
                 fontSize: '14px',
                 fontWeight: 'bold',
-                boxShadow: '0 4px 12px rgba(22, 163, 74, 0.3)',
-                transition: 'all 0.2s',
+                cursor: 'pointer',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-3px) scale(1.03)';
-                e.currentTarget.style.backgroundColor = '#15803d';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 6px 16px rgba(0,0,0,0.06)';
+                e.currentTarget.style.borderColor = '#94a3b8';
+                e.currentTarget.style.backgroundColor = '#e2e8f0';
+                e.currentTarget.style.color = '#334155';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                e.currentTarget.style.backgroundColor = '#16a34a';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 2px 6px rgba(0,0,0,0.02)';
+                e.currentTarget.style.borderColor = '#cbd5e1';
+                e.currentTarget.style.backgroundColor = '#f1f5f9';
+                e.currentTarget.style.color = '#475569';
               }}
             >
-              🚨 Lapor Sampah Warga
-            </a>
+              <span>🚨</span> Lapor Sampah Warga
+            </button>
           </div>
-
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            style={{
-              display: 'none',
-              background: 'none',
-              border: '1px solid #16a34a',
-              borderRadius: '8px',
-              padding: '8px 12px',
-              cursor: 'pointer',
-              fontSize: '18px',
-              color: '#16a34a',
-            }}
-          >
-            {mobileMenuOpen ? '✕' : '☰'}
-          </button>
         </div>
       </nav>
 
-      {/* HERO SECTION DENGAN EFEK HOVER KARTU INTERAKTIF */}
+      {/* HERO SECTION */}
       <header
         id="hero"
         style={{
@@ -460,26 +272,26 @@ export default function CommunitySection() {
       >
         <div
           style={{
-            background:
-              'linear-gradient(135deg, #14532d 0%, #16a34a 100%)',
+            backgroundColor: '#ffffff',
             borderRadius: '28px',
             padding: '48px',
-            color: '#ffffff',
+            color: '#475569',
             display: 'flex',
             flexDirection: 'column',
             gap: '24px',
-            boxShadow: '0 15px 35px rgba(22, 163, 74, 0.25)',
+            boxShadow: '0 10px 30px rgba(0, 0, 0, 0.03)',
+            border: '1px solid #e2e8f0',
             position: 'relative',
             overflow: 'hidden',
-            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+            transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'translateY(-4px)';
-            e.currentTarget.style.boxShadow = '0 25px 50px rgba(22, 163, 74, 0.35)';
+            e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.06)';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 15px 35px rgba(22, 163, 74, 0.25)';
+            e.currentTarget.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.03)';
           }}
         >
           <div style={{ maxWidth: '750px', zIndex: 2 }}>
@@ -494,14 +306,15 @@ export default function CommunitySection() {
             >
               <span
                 style={{
-                  backgroundColor: 'rgba(255,255,255,0.25)',
+                  backgroundColor: '#f1f5f9',
+                  color: '#64748b',
                   padding: '6px 16px',
                   borderRadius: '20px',
                   fontSize: '12px',
                   fontWeight: '700',
                   textTransform: 'uppercase',
                   letterSpacing: '0.5px',
-                  backdropFilter: 'blur(5px)',
+                  border: '1px solid #cbd5e1',
                 }}
               >
                 🌿 Sub-Tema: Desa Bebas Sampah
@@ -509,12 +322,13 @@ export default function CommunitySection() {
 
               <span
                 style={{
-                  backgroundColor: '#f0fdf4',
-                  color: '#14532d',
+                  backgroundColor: '#f1f5f9',
+                  color: '#64748b',
                   padding: '6px 14px',
                   borderRadius: '20px',
                   fontSize: '12px',
                   fontWeight: 'bold',
+                  border: '1px solid #cbd5e1',
                 }}
               >
                 📅 Hari Ini: {currentDay}
@@ -528,6 +342,7 @@ export default function CommunitySection() {
                 margin: '0 0 16px 0',
                 lineHeight: '1.2',
                 letterSpacing: '-0.5px',
+                color: '#334155',
               }}
             >
               Gerakan Sadar Lingkungan & Pengelolaan Sampah Mandiri RW 08
@@ -536,14 +351,12 @@ export default function CommunitySection() {
             <p
               style={{
                 fontSize: '16px',
-                opacity: '0.95',
+                color: '#64748b',
                 lineHeight: '1.6',
                 margin: 0,
               }}
             >
-              Fokus pada sistem bank sampah terpadu, proses daur ulang
-              kreatif, dan edukasi kebersihan warga berbasis digital untuk
-              lingkungan yang asri.
+              Fokus pada sistem bank sampah terpadu, proses daur ulang kreatif, dan edukasi kebersihan warga berbasis digital untuk lingkungan yang asri.
             </p>
           </div>
 
@@ -558,63 +371,47 @@ export default function CommunitySection() {
             <a
               href="#jadwal"
               onClick={(e) => scrollToSection(e, 'jadwal')}
-              style={{
-                backgroundColor: '#ffffff',
-                color: '#14532d',
-                padding: '14px 28px',
-                borderRadius: '14px',
-                textDecoration: 'none',
-                fontWeight: 'bold',
-                fontSize: '14px',
-                boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
-                transition: 'all 0.2s',
-              }}
+              style={actionButtonStyles}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.backgroundColor = '#e2e8f0';
+                e.currentTarget.style.color = '#334155';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.backgroundColor = '#f1f5f9';
+                e.currentTarget.style.color = '#475569';
               }}
             >
-              📅 Lihat Jadwal & Edukasi
+              <span>📅</span> Lihat Jadwal & Edukasi
             </a>
 
-            <a
-              href="#pelaporan"
-              onClick={(e) => scrollToSection(e, 'pelaporan')}
-              style={{
-                backgroundColor: 'rgba(255,255,255,0.15)',
-                color: '#ffffff',
-                border: '1px solid rgba(255,255,255,0.4)',
-                padding: '14px 28px',
-                borderRadius: '14px',
-                textDecoration: 'none',
-                fontWeight: 'bold',
-                fontSize: '14px',
-                backdropFilter: 'blur(5px)',
-                transition: 'all 0.2s',
-              }}
+            <button
+              onClick={() => setIsModalOpen(true)}
+              style={actionButtonStyles}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-2px) scale(1.03)';
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.25)';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.backgroundColor = '#e2e8f0';
+                e.currentTarget.style.color = '#334155';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.15)';
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.backgroundColor = '#f1f5f9';
+                e.currentTarget.style.color = '#475569';
               }}
             >
-              🚨 Akses Pelaporan Warga
-            </a>
+              <span>🚨</span> Akses Pelaporan Warga
+            </button>
           </div>
         </div>
       </header>
 
-      {/* KONTEN TENGAH */}
+      {/* KONTEN TENGAH (JADWAL & EDUKASI) */}
       <main
         style={{
           maxWidth: '1200px',
           margin: '0 auto',
-          padding: '20px',
+          padding: '20px 20px 60px 20px',
         }}
       >
         <div
@@ -631,126 +428,65 @@ export default function CommunitySection() {
             onClick={() => setActiveTab('jadwal')}
             style={{
               padding: '14px 28px',
-              borderRadius: '14px',
-              border: 'none',
-              backgroundColor:
-                activeTab === 'jadwal' ? '#16a34a' : '#ffffff',
-              color:
-                activeTab === 'jadwal' ? '#ffffff' : '#166534',
+              borderRadius: '16px',
+              border: '1px solid #cbd5e1',
+              backgroundColor: activeTab === 'jadwal' ? '#e2e8f0' : '#ffffff',
+              color: '#475569',
               fontWeight: 'bold',
               fontSize: '14px',
               cursor: 'pointer',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
+              boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+              transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
             }}
           >
-            🗑️ Jadwal & Edukasi Kebersihan
+            <span>🗑️</span> Jadwal & Edukasi Kebersihan
           </button>
 
           <button
             onClick={() => setActiveTab('galeri')}
             style={{
               padding: '14px 28px',
-              borderRadius: '14px',
-              border: 'none',
-              backgroundColor:
-                activeTab === 'galeri' ? '#16a34a' : '#ffffff',
-              color:
-                activeTab === 'galeri' ? '#ffffff' : '#166534',
+              borderRadius: '16px',
+              border: '1px solid #cbd5e1',
+              backgroundColor: activeTab === 'galeri' ? '#e2e8f0' : '#ffffff',
+              color: '#475569',
               fontWeight: 'bold',
               fontSize: '14px',
               cursor: 'pointer',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.05)',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
+              boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+              transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
             }}
           >
-            📸 Panduan Daur Ulang Interaktif
+            <span>📸</span> Panduan Daur Ulang Interaktif
           </button>
         </div>
 
         {activeTab === 'jadwal' && (
-          <div
-            style={{
-              backgroundColor: '#ffffff',
-              padding: '36px',
-              borderRadius: '28px',
-              border: '1px solid #bbf7d0',
-              boxShadow:
-                '0 8px 30px rgba(22, 163, 74, 0.06)',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: '28px',
-                flexWrap: 'wrap',
-                gap: '12px',
-              }}
-            >
+          <div key="jadwal" className="smooth-tab-content" style={{ backgroundColor: '#ffffff', padding: '36px', borderRadius: '28px', border: '1px solid #e2e8f0', boxShadow: '0 10px 30px rgba(0, 0, 0, 0.03)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px', flexWrap: 'wrap', gap: '12px' }}>
               <div>
-                <h3
-                  style={{
-                    fontSize: '22px',
-                    fontWeight: 'bold',
-                    color: '#14532d',
-                    margin: 0,
-                  }}
-                >
+                <h3 style={{ fontSize: '22px', fontWeight: 'bold', color: '#334155', margin: 0 }}>
                   Jadwal Edukasi & Operasional Bank Sampah
                 </h3>
-
-                <p
-                  style={{
-                    fontSize: '14px',
-                    color: '#64748b',
-                    margin: '6px 0 0 0',
-                  }}
-                >
+                <p style={{ fontSize: '14px', color: '#64748b', margin: '6px 0 0 0' }}>
                   Pastikan sampah sudah dipilah dari rumah sebelum disetorkan.
                 </p>
               </div>
 
-              <span
-                style={{
-                  backgroundColor: '#f0fdf4',
-                  color: '#15803d',
-                  padding: '8px 16px',
-                  borderRadius: '10px',
-                  fontSize: '13px',
-                  fontWeight: 'bold',
-                  border: '1px solid #86efac',
-                }}
-              >
+              <span style={{ backgroundColor: '#f1f5f9', color: '#64748b', padding: '8px 16px', borderRadius: '10px', fontSize: '13px', fontWeight: 'bold', border: '1px solid #cbd5e1' }}>
                 ♻️ Status: Sistem Aktif Minggu Ini
               </span>
             </div>
 
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns:
-                  'repeat(auto-fit, minmax(280px, 1fr))',
-                gap: '20px',
-              }}
-            >
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
               {jadwalBankSampah.map((item, idx) => {
-                const isToday =
-                  item.hari.toLowerCase() ===
-                  currentDay.toLowerCase();
+                const isToday = item.hari.toLowerCase() === currentDay.toLowerCase();
 
                 return (
                   <div
@@ -758,105 +494,46 @@ export default function CommunitySection() {
                     style={{
                       padding: '24px',
                       borderRadius: '20px',
-                      backgroundColor: isToday
-                        ? '#dcfce7'
-                        : '#f0fdf4',
-                      border: isToday
-                        ? '2px solid #16a34a'
-                        : '1px solid #86efac',
+                      backgroundColor: '#f8fafc',
+                      border: isToday ? '2px solid #94a3b8' : '1px solid #e2e8f0',
                       display: 'flex',
                       flexDirection: 'column',
                       justifyContent: 'space-between',
-                      boxShadow: isToday
-                        ? '0 6px 20px rgba(22, 163, 74, 0.2)'
-                        : '0 2px 8px rgba(0,0,0,0.02)',
-                      transition: 'all 0.3s ease',
-                      cursor: 'pointer',
+                      boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                      transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-6px)';
-                      e.currentTarget.style.boxShadow = '0 12px 30px rgba(22, 163, 74, 0.25)';
+                      e.currentTarget.style.transform = 'translateY(-4px)';
+                      e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.05)';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = isToday
-                        ? '0 6px 20px rgba(22, 163, 74, 0.2)'
-                        : '0 2px 8px rgba(0,0,0,0.02)';
+                      e.currentTarget.style.boxShadow = '0 2px 6px rgba(0,0,0,0.02)';
                     }}
                   >
                     <div>
-                      <div
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <span
-                          style={{
-                            backgroundColor: isToday
-                              ? '#15803d'
-                              : '#16a34a',
-                            color: '#ffffff',
-                            fontSize: '11px',
-                            fontWeight: 'bold',
-                            padding: '6px 14px',
-                            borderRadius: '12px',
-                            textTransform: 'uppercase',
-                          }}
-                        >
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ backgroundColor: '#f1f5f9', color: '#64748b', fontSize: '11px', fontWeight: 'bold', padding: '6px 14px', borderRadius: '12px', textTransform: 'uppercase', border: '1px solid #cbd5e1' }}>
                           {item.hari}
                         </span>
 
                         {isToday && (
-                          <span
-                            style={{
-                              fontSize: '11px',
-                              fontWeight: 'bold',
-                              color: '#15803d',
-                              backgroundColor: '#bbf7d0',
-                              padding: '4px 10px',
-                              borderRadius: '8px',
-                            }}
-                          >
+                          <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#475569', backgroundColor: '#f1f5f9', padding: '4px 10px', borderRadius: '8px', border: '1px solid #cbd5e1' }}>
                             Hari Ini! 🔥
                           </span>
                         )}
                       </div>
 
-                      <h4
-                        style={{
-                          fontSize: '17px',
-                          fontWeight: 'bold',
-                          color: '#14532d',
-                          margin: '14px 0 8px 0',
-                          lineHeight: '1.4',
-                        }}
-                      >
+                      <h4 style={{ fontSize: '17px', fontWeight: 'bold', color: '#334155', margin: '14px 0 8px 0', lineHeight: '1.4' }}>
                         {item.kegiatan}
                       </h4>
 
-                      <p
-                        style={{
-                          fontSize: '13px',
-                          color: '#166534',
-                          margin: '0 0 16px 0',
-                          fontWeight: '600',
-                        }}
-                      >
+                      <p style={{ fontSize: '13px', color: '#64748b', margin: '0 0 16px 0', fontWeight: '600' }}>
                         ⏰ {item.jam}
                       </p>
                     </div>
 
-                    <div
-                      style={{
-                        paddingTop: '12px',
-                        borderTop: '1px dashed #bbf7d0',
-                        fontSize: '13px',
-                        color: '#334155',
-                        fontWeight: 'bold',
-                      }}
-                    >
+                    <div style={{ paddingTop: '12px', borderTop: '1px dashed #cbd5e1', fontSize: '13px', color: '#475569', fontWeight: 'bold' }}>
                       📍 {item.lokasi}
                     </div>
                   </div>
@@ -867,35 +544,12 @@ export default function CommunitySection() {
         )}
 
         {activeTab === 'galeri' && (
-          <div
-            style={{
-              backgroundColor: '#ffffff',
-              padding: '36px',
-              borderRadius: '28px',
-              border: '1px solid #bbf7d0',
-              boxShadow:
-                '0 8px 30px rgba(22, 163, 74, 0.06)',
-            }}
-          >
-            <h3
-              style={{
-                fontSize: '22px',
-                fontWeight: 'bold',
-                color: '#14532d',
-                marginBottom: '24px',
-              }}
-            >
+          <div key="galeri" className="smooth-tab-content" style={{ backgroundColor: '#ffffff', padding: '36px', borderRadius: '28px', border: '1px solid #e2e8f0', boxShadow: '0 10px 30px rgba(0, 0, 0, 0.03)' }}>
+            <h3 style={{ fontSize: '22px', fontWeight: 'bold', color: '#334155', marginBottom: '24px' }}>
               Panduan Daur Ulang & Dokumentasi Warga
             </h3>
 
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns:
-                  'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: '24px',
-              }}
-            >
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
               {galeriKegiatan.map((item) => (
                 <div
                   key={item.id}
@@ -903,19 +557,17 @@ export default function CommunitySection() {
                     borderRadius: '22px',
                     overflow: 'hidden',
                     border: '1px solid #e2e8f0',
-                    backgroundColor: '#ffffff',
-                    boxShadow:
-                      '0 4px 15px rgba(0,0,0,0.04)',
-                    transition: 'all 0.3s ease',
-                    cursor: 'pointer',
+                    backgroundColor: '#f8fafc',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.03)',
+                    transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-6px)';
-                    e.currentTarget.style.boxShadow = '0 15px 30px rgba(0,0,0,0.1)';
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                    e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.06)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.04)';
+                    e.currentTarget.style.boxShadow = '0 4px 15px rgba(0,0,0,0.03)';
                   }}
                 >
                   <div style={{ overflow: 'hidden' }}>
@@ -927,50 +579,25 @@ export default function CommunitySection() {
                         height: '210px',
                         objectFit: 'cover',
                         display: 'block',
+                        filter: 'grayscale(20%) contrast(90%)',
                         transition: 'transform 0.4s ease',
                       }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'scale(1.05)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'scale(1)';
-                      }}
+                      onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.04)')}
+                      onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
                       loading="lazy"
                     />
                   </div>
 
                   <div style={{ padding: '20px' }}>
-                    <span
-                      style={{
-                        fontSize: '11px',
-                        fontWeight: 'bold',
-                        color: '#16a34a',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.5px',
-                      }}
-                    >
+                    <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                       {item.tag}
                     </span>
 
-                    <h4
-                      style={{
-                        fontSize: '17px',
-                        fontWeight: 'bold',
-                        color: '#0f172a',
-                        margin: '8px 0 10px 0',
-                      }}
-                    >
+                    <h4 style={{ fontSize: '17px', fontWeight: 'bold', color: '#334155', margin: '8px 0 10px 0' }}>
                       {item.title}
                     </h4>
 
-                    <p
-                      style={{
-                        fontSize: '13px',
-                        color: '#64748b',
-                        margin: 0,
-                        lineHeight: '1.6',
-                      }}
-                    >
+                    <p style={{ fontSize: '13px', color: '#64748b', margin: 0, lineHeight: '1.6' }}>
                       {item.desc}
                     </p>
                   </div>
@@ -981,769 +608,187 @@ export default function CommunitySection() {
         )}
       </main>
 
-      {/* PETA WILAYAH */}
-      <section
-        id="peta"
-        style={{
-          maxWidth: '1200px',
-          margin: '40px auto 60px auto',
-          padding: '0 20px',
-          scrollMarginTop: '90px',
-        }}
-      >
+      {/* POP-UP MODAL LAPOR SAMPAH WARGA */}
+      {isModalOpen && (
         <div
           style={{
-            backgroundColor: '#ffffff',
-            padding: '36px',
-            borderRadius: '28px',
-            border: '1px solid #bbf7d0',
-            boxShadow:
-              '0 8px 30px rgba(22, 163, 74, 0.06)',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            backgroundColor: 'rgba(15, 23, 42, 0.4)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 9999,
+            backdropFilter: 'blur(4px)',
+            padding: '16px',
+            boxSizing: 'border-box',
           }}
+          onClick={() => setIsModalOpen(false)}
         >
-          <div style={{ marginBottom: '28px' }}>
-            <h3
-              style={{
-                fontSize: '26px',
-                fontWeight: '800',
-                color: '#14532d',
-                margin: '0 0 8px 0',
-              }}
-            >
-              Peta Wilayah RW 08 Cibangkong
-            </h3>
-
-            <p
-              style={{
-                fontSize: '15px',
-                color: '#475569',
-                margin: 0,
-                lineHeight: '1.5',
-              }}
-            >
-              Peta statik interaktif wilayah untuk memeriksa rute penyetoran
-              sampah dan titik kumpul warga secara real-time.
-            </p>
-          </div>
-
           <div
+            className="modal-animation"
             style={{
-              display: 'grid',
-              gridTemplateColumns:
-                'repeat(auto-fit, minmax(320px, 1fr))',
-              gap: '28px',
-              alignItems: 'start',
+              backgroundColor: '#ffffff',
+              border: '1px solid #cbd5e1',
+              padding: '30px',
+              borderRadius: '24px',
+              width: '100%',
+              maxWidth: '450px',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.1)',
+              position: 'relative',
+              boxSizing: 'border-box',
             }}
+            onClick={(e) => e.stopPropagation()}
           >
-            {/* PETA */}
-            <div
-              style={{
-                backgroundColor: '#ffffff',
-                padding: '20px',
-                borderRadius: '24px',
-                border: '1px solid #e2e8f0',
-                gridColumn: 'span 2',
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginBottom: '16px',
-                  flexWrap: 'wrap',
-                  gap: '10px',
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                  }}
-                >
-                  <span style={{ fontSize: '18px' }}>🗺️</span>
-
-                  <h4
-                    style={{
-                      fontSize: '18px',
-                      fontWeight: 'bold',
-                      color: '#14532d',
-                      margin: 0,
-                    }}
-                  >
-                    Peta Zonasi & Batas Wilayah
-                  </h4>
-                </div>
-
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    backgroundColor: '#f0fdf4',
-                    padding: '6px 14px',
-                    borderRadius: '20px',
-                    border: '1px solid #bbf7d0',
-                  }}
-                >
-                  <span
-                    style={{
-                      width: '8px',
-                      height: '8px',
-                      backgroundColor: '#22c55e',
-                      borderRadius: '50%',
-                      display: 'inline-block',
-                    }}
-                  />
-
-                  <span
-                    style={{
-                      fontSize: '12px',
-                      fontWeight: 'bold',
-                      color: '#15803d',
-                    }}
-                  >
-                    Live Status Online
-                  </span>
-                </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ fontSize: '20px' }}>🚨</span>
+                <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#334155', margin: 0 }}>
+                  Lapor Sampah Warga
+                </h3>
               </div>
 
-              <div
+              <button
+                onClick={() => setIsModalOpen(false)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  fontSize: '18px',
+                  cursor: 'pointer',
+                  color: '#64748b',
+                  fontWeight: 'bold',
+                  transition: 'color 0.2s',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#334155')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = '#64748b')}
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleKirimLaporan} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <div>
+                <label style={{ fontSize: '12px', fontWeight: 'bold', color: '#64748b', display: 'block', marginBottom: '4px' }}>
+                  Nama Lengkap
+                </label>
+                <input
+                  type="text"
+                  placeholder="Contoh: Budi Santoso"
+                  value={namaPelapor}
+                  onChange={(e) => setNamaPelapor(e.target.value)}
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '12px 14px',
+                    borderRadius: '12px',
+                    border: '1px solid #cbd5e1',
+                    backgroundColor: '#f8fafc',
+                    color: '#334155',
+                    fontSize: '13px',
+                    boxSizing: 'border-box',
+                    outline: 'none',
+                    transition: 'border-color 0.2s',
+                  }}
+                  onFocus={(e) => (e.currentTarget.style.borderColor = '#94a3b8')}
+                  onBlur={(e) => (e.currentTarget.style.borderColor = '#cbd5e1')}
+                />
+              </div>
+
+              <div>
+                <label style={{ fontSize: '12px', fontWeight: 'bold', color: '#64748b', divider: 'block', marginBottom: '4px' }}>
+                  Asal Wilayah RT
+                </label>
+                <select
+                  value={rtPelapor}
+                  onChange={(e) => setRtPelapor(e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '12px 14px',
+                    borderRadius: '12px',
+                    border: '1px solid #cbd5e1',
+                    backgroundColor: '#f8fafc',
+                    color: '#334155',
+                    fontSize: '13px',
+                    boxSizing: 'border-box',
+                    outline: 'none',
+                  }}
+                >
+                  <option value="RT 01">RT 01</option>
+                  <option value="RT 02">RT 02</option>
+                  <option value="RT 03">RT 03</option>
+                  <option value="RT 05">RT 05</option>
+                  <option value="RT 06">RT 06</option>
+                  <option value="RT 07">RT 07</option>
+                </select>
+              </div>
+
+              <div>
+                <label style={{ fontSize: '12px', fontWeight: 'bold', color: '#64748b', display: 'block', marginBottom: '4px' }}>
+                  Keterangan Laporan / Aduan
+                </label>
+                <textarea
+                  rows={4}
+                  placeholder="Contoh: Ada penumpukan sampah liar di pinggir jalan..."
+                  value={pesanLaporan}
+                  onChange={(e) => setPesanLaporan(e.target.value)}
+                  required
+                  style={{
+                    width: '100%',
+                    padding: '12px 14px',
+                    borderRadius: '12px',
+                    border: '1px solid #cbd5e1',
+                    backgroundColor: '#f8fafc',
+                    color: '#334155',
+                    fontSize: '13px',
+                    boxSizing: 'border-box',
+                    resize: 'vertical',
+                    outline: 'none',
+                    transition: 'border-color 0.2s',
+                  }}
+                  onFocus={(e) => (e.currentTarget.style.borderColor = '#94a3b8')}
+                  onBlur={(e) => (e.currentTarget.style.borderColor = '#cbd501')}
+                />
+              </div>
+
+              <button
+                type="submit"
                 style={{
                   width: '100%',
-                  backgroundColor: '#f8fafc',
-                  borderRadius: '18px',
+                  padding: '14px',
+                  borderRadius: '12px',
+                  backgroundColor: '#f1f5f9',
+                  color: '#475569',
+                  fontWeight: 'bold',
+                  fontSize: '14px',
                   border: '1px solid #cbd5e1',
-                  padding: '12px',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  position: 'relative',
-                  overflow: 'visible',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  marginTop: '8px',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#e2e8f0';
+                  e.currentTarget.style.color = '#334155';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#f1f5f9';
+                  e.currentTarget.style.color = '#475569';
                 }}
               >
-                <div
-                  style={{
-                    position: 'relative',
-                    display: 'inline-block',
-                    maxWidth: '100%',
-                  }}
-                >
-                  {/* FOTO MAPS */}
-                  <img
-                    src="/maps.jpeg"
-                    alt="Peta Wilayah RW 08 Cibangkong"
-                    style={{
-                      width: '100%',
-                      height: 'auto',
-                      maxHeight: '500px',
-                      objectFit: 'contain',
-                      borderRadius: '14px',
-                      display: 'block',
-                    }}
-                    loading="lazy"
-                  />
+                📤 Kirim Laporan via WhatsApp
+              </button>
 
-                  {/* MARKER PIN */}
-                  {mapMarkers.map((marker) => {
-                    const topVal = parseFloat(marker.top);
-                    const isNearTop = topVal < 40;
-                    const isUserLocation = marker.id === 'lokasi-saya';
-                    const isBank = marker.type === 'bank';
-                    const isTitik = marker.type === 'titik';
-                    const isSekolah = marker.type === 'sekolah';
-                    const isMasjid = marker.type === 'masjid';
-                    const isGedung = marker.type === 'gedung';
-
-                    return (
-                      <div
-                        key={marker.id}
-                        style={{
-                          position: 'absolute',
-                          top: marker.top,
-                          left: marker.left,
-                          transform: 'translate(-50%, -100%)',
-                          zIndex:
-                            activeMarker === marker.id
-                              ? 50
-                              : isUserLocation
-                              ? 20
-                              : 10,
-                        }}
-                      >
-                        <button
-                          onClick={() =>
-                            setActiveMarker(
-                              activeMarker === marker.id
-                                ? null
-                                : marker.id
-                            )
-                          }
-                          style={{
-                            backgroundColor: isUserLocation
-                              ? '#2563eb'
-                              : isBank
-                              ? '#d97706'
-                              : isTitik
-                              ? '#059669'
-                              : isSekolah
-                              ? '#7c3aed'
-                              : isMasjid
-                              ? '#0d9488'
-                              : isGedung
-                              ? '#4f46e5'
-                              : '#16a34a',
-
-                            color: '#ffffff',
-
-                            border: '2px solid #ffffff',
-
-                            width: isUserLocation
-                              ? '34px'
-                              : '30px',
-
-                            height: isUserLocation
-                              ? '34px'
-                              : '30px',
-
-                            cursor: 'pointer',
-
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-
-                            /* BENTUK PIN KLASIK DENGAN UJUNG DIBAWAH */
-                            borderRadius: '50% 50% 50% 10%',
-
-                            transform: 'rotate(-45deg)',
-
-                            boxShadow:
-                              '0 4px 10px rgba(0,0,0,0.3)',
-
-                            fontWeight: 'bold',
-                            fontSize: '12px',
-
-                            transition: 'all 0.2s',
-                            padding: 0,
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.transform =
-                              'rotate(-45deg) scale(1.25)';
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.transform =
-                              'rotate(-45deg) scale(1)';
-                          }}
-                          title={marker.name}
-                        >
-                          <span
-                            style={{
-                              transform: 'rotate(45deg)',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                            }}
-                          >
-                            {isUserLocation
-                              ? '●'
-                              : isBank
-                              ? '♻'
-                              : isTitik
-                              ? '♟'
-                              : isSekolah
-                              ? '🏫'
-                              : isMasjid
-                              ? '🕌'
-                              : isGedung
-                              ? '🏢'
-                              : '•'}
-                          </span>
-                        </button>
-
-                        {/* POPUP MARKER */}
-                        {activeMarker === marker.id && (
-                          <div
-                            style={{
-                              position: 'absolute',
-
-                              ...(isNearTop
-                                ? { top: '38px' }
-                                : { bottom: '38px' }),
-
-                              left: '50%',
-                              transform: 'translateX(-50%)',
-
-                              backgroundColor: '#ffffff',
-                              color: '#0f172a',
-
-                              padding: '14px 18px',
-
-                              borderRadius: '14px',
-
-                              boxShadow:
-                                '0 10px 30px rgba(0,0,0,0.25)',
-
-                              fontSize: '13px',
-                              width: '230px',
-
-                              whiteSpace: 'normal',
-                              lineHeight: '1.4',
-
-                              border: '1px solid #cbd5e1',
-
-                              zIndex: 100,
-                              pointerEvents: 'auto',
-                            }}
-                          >
-                            <div
-                              style={{
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                alignItems: 'center',
-                                marginBottom: '6px',
-                              }}
-                            >
-                              <strong
-                                style={{
-                                  color: isUserLocation
-                                    ? '#2563eb'
-                                    : isTitik
-                                    ? '#059669'
-                                    : isSekolah
-                                    ? '#7c3aed'
-                                    : isMasjid
-                                    ? '#0d9488'
-                                    : isGedung
-                                    ? '#4f46e5'
-                                    : '#15803d',
-                                  fontSize: '13px',
-                                }}
-                              >
-                                {marker.name}
-                              </strong>
-
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setActiveMarker(null);
-                                }}
-                                style={{
-                                  background: 'none',
-                                  border: 'none',
-                                  cursor: 'pointer',
-                                  fontSize: '14px',
-                                  color: '#64748b',
-                                  padding: 0,
-                                }}
-                              >
-                                ✕
-                              </button>
-                            </div>
-
-                            <span
-                              style={{
-                                color: '#475569',
-                                display: 'block',
-                              }}
-                            >
-                              {marker.desc}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
+              {statusKirim && (
+                <div style={{ backgroundColor: '#f1f5f9', color: '#475569', border: '1px solid #cbd5e1', padding: '12px', borderRadius: '10px', fontSize: '12px', textAlign: 'center', fontWeight: 'bold' }}>
+                  ✅ Laporan siap diteruskan ke WhatsApp Admin!
                 </div>
-              </div>
-            </div>
-
-            {/* INFORMASI SAMPING */}
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '24px',
-              }}
-            >
-              {/* LOKASI TERDEKAT */}
-              <div
-                style={{
-                  backgroundColor: '#ffffff',
-                  padding: '24px',
-                  borderRadius: '24px',
-                  border: '1px solid #e2e8f0',
-                  boxShadow:
-                    '0 4px 15px rgba(0,0,0,0.03)',
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: '16px',
-                  }}
-                >
-                  <h4
-                    style={{
-                      fontSize: '16px',
-                      fontWeight: 'bold',
-                      color: '#0f172a',
-                      margin: 0,
-                    }}
-                  >
-                    Lokasi Terdekat
-                  </h4>
-
-                  <span style={{ fontSize: '16px' }}>
-                    📍
-                  </span>
-                </div>
-
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '12px',
-                    marginBottom: '16px',
-                  }}
-                >
-                  {daftarLokasiTerdekat.map((loc) => (
-                    <div
-                      key={loc.id}
-                      onClick={() =>
-                        setSelectedLocation(loc)
-                      }
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        padding: '12px 14px',
-                        borderRadius: '14px',
-                        backgroundColor:
-                          selectedLocation?.id === loc.id
-                            ? '#f0fdf4'
-                            : '#f8fafc',
-                        border:
-                          selectedLocation?.id === loc.id
-                            ? '1px solid #16a34a'
-                            : '1px solid #e2e8f0',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateX(4px)';
-                        e.currentTarget.style.borderColor = '#16a34a';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateX(0)';
-                        e.currentTarget.style.borderColor =
-                          selectedLocation?.id === loc.id
-                            ? '#16a34a'
-                            : '#e2e8f0';
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '12px',
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: '36px',
-                            height: '36px',
-                            borderRadius: '50%',
-                            backgroundColor: loc.bg,
-                            color: loc.color,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '15px',
-                            flexShrink: 0,
-                          }}
-                        >
-                          {loc.icon}
-                        </div>
-
-                        <div>
-                          <div
-                            style={{
-                              fontSize: '13px',
-                              fontWeight: 'bold',
-                              color: '#0f172a',
-                            }}
-                          >
-                            {loc.nama}
-                          </div>
-
-                          <div
-                            style={{
-                              fontSize: '11px',
-                              color: '#64748b',
-                            }}
-                          >
-                            👣 {loc.jarak} • 🚶 {loc.waktu}
-                          </div>
-                        </div>
-                      </div>
-
-                      <span
-                        style={{
-                          color: '#94a3b8',
-                          fontSize: '14px',
-                        }}
-                      >
-                        ›
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                {selectedLocation && (
-                  <div
-                    style={{
-                      backgroundColor: '#f0fdf4',
-                      border: '1px solid #86efac',
-                      padding: '14px',
-                      borderRadius: '12px',
-                      fontSize: '12px',
-                      color: '#14532d',
-                      lineHeight: '1.4',
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontWeight: 'bold',
-                        marginBottom: '4px',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                      }}
-                    >
-                      <span>
-                        {selectedLocation.nama}
-                      </span>
-
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setSelectedLocation(null);
-                        }}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          cursor: 'pointer',
-                          fontSize: '12px',
-                          color: '#64748b',
-                        }}
-                      >
-                        ✕
-                      </button>
-                    </div>
-
-                    <div>
-                      {selectedLocation.detail}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* FORM PELAPORAN */}
-              <div
-                id="pelaporan"
-                style={{
-                  backgroundColor: '#ffffff',
-                  padding: '24px',
-                  borderRadius: '24px',
-                  border: '1px solid #e2e8f0',
-                  boxShadow:
-                    '0 4px 15px rgba(0,0,0,0.03)',
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    marginBottom: '16px',
-                  }}
-                >
-                  <span style={{ fontSize: '18px' }}>
-                    🚨
-                  </span>
-
-                  <h4
-                    style={{
-                      fontSize: '16px',
-                      fontWeight: 'bold',
-                      color: '#0f172a',
-                      margin: 0,
-                    }}
-                  >
-                    Lapor Sampah Warga
-                  </h4>
-                </div>
-
-                <form
-                  onSubmit={handleKirimLaporan}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '12px',
-                  }}
-                >
-                  <div>
-                    <label
-                      style={{
-                        fontSize: '12px',
-                        fontWeight: 'bold',
-                        color: '#475569',
-                        display: 'block',
-                        marginBottom: '4px',
-                      }}
-                    >
-                      Nama Lengkap
-                    </label>
-
-                    <input
-                      type="text"
-                      placeholder="Contoh: Budi Santoso"
-                      value={namaPelapor}
-                      onChange={(e) =>
-                        setNamaPelapor(e.target.value)
-                      }
-                      required
-                      style={{
-                        width: '100%',
-                        padding: '10px 14px',
-                        borderRadius: '10px',
-                        border: '1px solid #cbd5e1',
-                        fontSize: '13px',
-                        boxSizing: 'border-box',
-                      }}
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      style={{
-                        fontSize: '12px',
-                        fontWeight: 'bold',
-                        color: '#475569',
-                        display: 'block',
-                        marginBottom: '4px',
-                      }}
-                    >
-                      Asal Wilayah RT
-                    </label>
-
-                    <select
-                      value={rtPelapor}
-                      onChange={(e) =>
-                        setRtPelapor(e.target.value)
-                      }
-                      style={{
-                        width: '100%',
-                        padding: '10px 14px',
-                        borderRadius: '10px',
-                        border: '1px solid #cbd5e1',
-                        fontSize: '13px',
-                        backgroundColor: '#ffffff',
-                        boxSizing: 'border-box',
-                      }}
-                    >
-                      <option value="RT 01">RT 01</option>
-                      <option value="RT 02">RT 02</option>
-                      <option value="RT 03">RT 03</option>
-                      <option value="RT 05">RT 05</option>
-                      <option value="RT 06">RT 06</option>
-                      <option value="RT 07">RT 07</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label
-                      style={{
-                        fontSize: '12px',
-                        fontWeight: 'bold',
-                        color: '#475569',
-                        display: 'block',
-                        marginBottom: '4px',
-                      }}
-                    >
-                      Keterangan Laporan / Aduan
-                    </label>
-
-                    <textarea
-                      rows={3}
-                      placeholder="Contoh: Ada penumpukan sampah liar di pinggir jalan..."
-                      value={pesanLaporan}
-                      onChange={(e) =>
-                        setPesanLaporan(e.target.value)
-                      }
-                      required
-                      style={{
-                        width: '100%',
-                        padding: '10px 14px',
-                        borderRadius: '10px',
-                        border: '1px solid #cbd5e1',
-                        fontSize: '13px',
-                        boxSizing: 'border-box',
-                        resize: 'vertical',
-                      }}
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    style={{
-                      width: '100%',
-                      padding: '12px',
-                      borderRadius: '12px',
-                      backgroundColor: '#16a34a',
-                      color: '#ffffff',
-                      fontWeight: 'bold',
-                      fontSize: '13px',
-                      border: 'none',
-                      cursor: 'pointer',
-                      boxShadow:
-                        '0 4px 12px rgba(22, 163, 74, 0.25)',
-                      transition: 'all 0.2s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)';
-                      e.currentTarget.style.backgroundColor = '#15803d';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0) scale(1)';
-                      e.currentTarget.style.backgroundColor = '#16a34a';
-                    }}
-                  >
-                    📤 Kirim Laporan via WhatsApp
-                  </button>
-
-                  {statusKirim && (
-                    <div
-                      style={{
-                        backgroundColor: '#dcfce7',
-                        color: '#15803d',
-                        padding: '10px',
-                        borderRadius: '8px',
-                        fontSize: '12px',
-                        textAlign: 'center',
-                        fontWeight: 'bold',
-                      }}
-                    >
-                      ✅ Laporan siap diteruskan ke WhatsApp Admin!
-                    </div>
-                  )}
-                </form>
-              </div>
-            </div>
+              )}
+            </form>
           </div>
         </div>
-      </section>
+      )}
     </section>
   );
 }
