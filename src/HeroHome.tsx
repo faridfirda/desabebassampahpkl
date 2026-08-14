@@ -20,11 +20,11 @@ export default function HeroHome({ onLoginClick }) {
   };
 
   return (
-    <div style={{ background: "#ffffff", minHeight: "100vh", padding: "40px 24px", fontFamily: "'Inter', sans-serif", color: "#1f2937" }}>
-      <div style={{ maxWidth: "1280px", margin: "0 auto", display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: "40px", alignItems: "center" }}>
+    <div style={{ background: "#ffffff", minHeight: "100vh", padding: "40px 24px", fontFamily: "'Inter', sans-serif", color: "#1f2937", boxSizing: "border-box" }}>
+      <div style={{ maxWidth: "1280px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "40px", alignItems: "center" }}>
         
         {/* KOLOM KIRI */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px", width: "100%", boxSizing: "border-box" }}>
           
           <div>
             <span style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#f0fdf4", color: "#16a34a", border: "1px solid #bbf7d0", padding: "8px 16px", borderRadius: "30px", fontSize: "13px", fontWeight: "600" }}>
@@ -32,7 +32,7 @@ export default function HeroHome({ onLoginClick }) {
             </span>
           </div>
 
-          <h1 style={{ fontSize: "42px", fontWeight: "800", lineHeight: "1.15", margin: 0, color: "#111827" }}>
+          <h1 style={{ fontSize: "clamp(32px, 5vw, 42px)", fontWeight: "800", lineHeight: "1.15", margin: 0, color: "#111827", wordBreak: "break-word" }}>
             Wujudkan RW 08 <br />
             <span style={{ color: "#16a34a" }}>Kawasan Bebas Sampah</span>
           </h1>
@@ -41,7 +41,7 @@ export default function HeroHome({ onLoginClick }) {
             Gerakan sadar lingkungan untuk menciptakan RW 08 Cibangkong yang bersih, sehat, dan asri. Bersama kita kelola sampah mandiri mulai dari rumah melalui pemilahan yang bijak dan berkelanjutan.
           </p>
 
-          <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "20px", display: "flex", flexDirection: "column", gap: "10px" }}>
+          <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "20px", display: "flex", flexDirection: "column", gap: "10px", boxSizing: "border-box" }}>
             <div style={{ fontSize: "13px", fontWeight: "700", color: "#16a34a", display: "flex", alignItems: "center", gap: "8px" }}>
               📅 JADWAL OPERASIONAL BANK SAMPAH:
             </div>
@@ -110,7 +110,7 @@ export default function HeroHome({ onLoginClick }) {
           style={{ 
             background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "20px", padding: "16px", 
             boxShadow: isHovered ? "0 20px 40px rgba(22,163,74,0.15)" : "0 10px 25px rgba(0,0,0,0.05)", 
-            display: "flex", flexDirection: "column", gap: "12px",
+            display: "flex", flexDirection: "column", gap: "12px", width: "100%", boxSizing: "border-box",
             transition: "box-shadow 0.3s ease, transform 0.3s ease",
             transform: isHovered ? "translateY(-4px)" : "translateY(0)"
           }}

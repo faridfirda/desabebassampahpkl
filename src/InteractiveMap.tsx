@@ -214,15 +214,15 @@ export default function InteractiveMap() {
   };
 
   return (
-    <div style={{ background: "#f8fafc", minHeight: "100vh", padding: "30px 20px", fontFamily: "'Inter', sans-serif", color: "#1f2937" }}>
+    <div style={{ background: "#f8fafc", minHeight: "100vh", padding: "30px 20px", fontFamily: "'Inter', sans-serif", color: "#1f2937", boxSizing: "border-box" }}>
       <div style={{ maxWidth: "1300px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "24px" }}>
         
         {/* HEADER UTAMA & STATISTIK ATAS */}
-        <div style={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "24px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "20px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)" }}>
+        <div style={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "24px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "20px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)", boxSizing: "border-box" }}>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "4px" }}>
               <span style={{ fontSize: "20px" }}>🗺️</span>
-              <h2 style={{ fontSize: "24px", fontWeight: "800", color: "#0f172a", margin: 0 }}>
+              <h2 style={{ fontSize: "clamp(18px, 4vw, 24px)", fontWeight: "800", color: "#0f172a", margin: 0, wordBreak: "break-word" }}>
                 RW 08 Kelurahan Cibangkong / Kecamatan Batununggal
               </h2>
             </div>
@@ -234,14 +234,14 @@ export default function InteractiveMap() {
             </p>
           </div>
 
-          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", width: "100%" }}>
             {[
               { label: "TOTAL WARGA", val: "965 Jiwa", color: "#0284c7" },
               { label: "TOTAL KK", val: "270 KK", color: "#0f172a" },
               { label: "JUMLAH RT", val: "7 RT", color: "#0f172a" },
               { label: "LUAS WILAYAH", val: "12.5 Ha", color: "#0f172a" },
             ].map((item, idx) => (
-              <div key={idx} style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "12px", padding: "12px 16px", textAlign: "center", minWidth: "110px" }}>
+              <div key={idx} style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "12px", padding: "12px 16px", textAlign: "center", flex: "1 1 110px", boxSizing: "border-box" }}>
                 <div style={{ fontSize: "10px", fontWeight: "700", color: "#64748b", textTransform: "uppercase", marginBottom: "4px" }}>{item.label}</div>
                 <div style={{ fontSize: "16px", fontWeight: "800", color: item.color }}>{item.val}</div>
               </div>
@@ -249,14 +249,14 @@ export default function InteractiveMap() {
           </div>
         </div>
 
-        {/* KONTEN UTAMA */}
-        <div style={{ display: "grid", gridTemplateColumns: "280px 1fr 340px", gap: "20px", alignItems: "start" }}>
+        {/* KONTEN UTAMA (Responsive Grid) */}
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "20px", alignItems: "start" }}>
           
           {/* KOLOM 1: FILTER PETA & STATUS DARURAT */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            <div style={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "20px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px", width: "100%", boxSizing: "border-box" }}>
+            <div style={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "20px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)", boxSizing: "border-box" }}>
               <div style={{ fontSize: "16px", fontWeight: "700", color: "#0f172a", marginBottom: "4px" }}>Filter Peta</div>
-              <div style={{ fontSize: "12px", color: "#64748b", marginBottom: "16px" }}>Klik ikon apa saja di peta (RT, Fasilitas, CCTV, atau PJU) untuk melihat rincian di panel kanan.</div>
+              <div style={{ fontSize: "12px", color: "#64748b", marginBottom: "16px" }}>Klik ikon apa saja di peta (RT, Fasilitas, CCTV, atau PJU) untuk melihat rincian di panel.</div>
 
               <div style={{ 
                 background: isCurrentEmergency ? "#fef2f2" : "#f0fdf4", 
@@ -265,7 +265,8 @@ export default function InteractiveMap() {
                 padding: "14px", 
                 marginBottom: "16px",
                 boxShadow: isCurrentEmergency && pulseAnim ? "0 0 12px rgba(239, 68, 68, 0.3)" : "none",
-                transition: "box-shadow 0.4s ease"
+                transition: "box-shadow 0.4s ease",
+                boxSizing: "border-box"
               }}>
                 <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "13px", fontWeight: "700", color: isCurrentEmergency ? "#dc2626" : "#16a34a", marginBottom: "6px" }}>
                   <span style={{ transform: isCurrentEmergency && pulseAnim ? "scale(1.2)" : "scale(1)", transition: "transform 0.3s" }}>⚠️</span> 
@@ -298,7 +299,7 @@ export default function InteractiveMap() {
                       background: filters[f.key as keyof typeof filters] ? "#f8fafc" : "#ffffff", border: "1px solid #e2e8f0",
                       borderRadius: "10px", padding: "10px 14px", fontSize: "13px", fontWeight: "600",
                       color: filters[f.key as keyof typeof filters] ? "#0f172a" : "#94a3b8", cursor: "pointer", textAlign: "left",
-                      transition: "background 0.2s"
+                      transition: "background 0.2s", boxSizing: "border-box"
                     }}
                   >
                     <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>{f.icon} {f.label}</span>
@@ -310,9 +311,9 @@ export default function InteractiveMap() {
           </div>
 
           {/* KOLOM 2: BAGIAN TENGAH (PETA INTERAKTIF) */}
-          <div style={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "16px", position: "relative", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)" }}>
+          <div style={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "16px", position: "relative", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)", width: "100%", boxSizing: "border-box" }}>
             
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px", padding: "0 4px" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "12px", padding: "0 4px", flexWrap: "wrap", gap: "8px" }}>
               <div style={{ fontSize: "15px", fontWeight: "700", color: "#0f172a", display: "flex", alignItems: "center", gap: "6px" }}>
                 <span>🗺️</span> Peta Zonasi & Batas Wilayah RW 08
               </div>
@@ -322,7 +323,7 @@ export default function InteractiveMap() {
             </div>
 
             {/* Container Peta */}
-            <div style={{ position: "relative", width: "100%", borderRadius: "12px", overflow: "hidden", border: "1px solid #e2e8f0", background: "#000" }}>
+            <div style={{ position: "relative", width: "100%", borderRadius: "12px", overflow: "hidden", border: "1px solid #e2e8f0", background: "#000", boxSizing: "border-box" }}>
               
               <img 
                 src="/maps.jpeg" 
@@ -521,18 +522,18 @@ export default function InteractiveMap() {
           </div>
 
           {/* KOLOM 3: SIDEBAR DETAIL ITEM YANG DIPILIH */}
-          <div style={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "20px", display: "flex", flexDirection: "column", gap: "20px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)" }}>
+          <div style={{ background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "20px", display: "flex", flexDirection: "column", gap: "20px", boxShadow: "0 4px 6px -1px rgba(0,0,0,0.02)", width: "100%", boxSizing: "border-box" }}>
             
             {/* Header Informasi Terpilih */}
             <div style={{ display: "flex", alignItems: "center", gap: "14px", borderBottom: "1px solid #f1f5f9", paddingBottom: "16px" }}>
-              <div style={{ width: "54px", height: "54px", borderRadius: "50%", background: "#e2e8f0", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "22px", overflow: "hidden", border: "2px solid #3b82f6" }}>
+              <div style={{ width: "54px", height: "54px", borderRadius: "50%", background: "#e2e8f0", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "22px", overflow: "hidden", border: "2px solid #3b82f6", flexShrink: 0 }}>
                 {selectedItem.type === "rt" ? "👨‍💼" : selectedItem.type === "fasilitas" ? "🏛️" : selectedItem.type === "cctv" ? "📷" : "💡"}
               </div>
-              <div>
+              <div style={{ overflow: "hidden" }}>
                 <div style={{ fontSize: "11px", fontWeight: "700", color: "#3b82f6", textTransform: "uppercase" }}>
                   {selectedItem.type === "rt" ? `KETUA ${selectedItem.title}` : selectedItem.subtitle || "DETAIL INFRASTRUKTUR"}
                 </div>
-                <div style={{ fontSize: "15px", fontWeight: "800", color: "#0f172a" }}>
+                <div style={{ fontSize: "15px", fontWeight: "800", color: "#0f172a", wordBreak: "break-word" }}>
                   {selectedItem.ketua ? selectedItem.ketua.nama : selectedItem.title}
                 </div>
                 {selectedItem.ketua && (
@@ -544,15 +545,15 @@ export default function InteractiveMap() {
             {/* List Detail Atribut */}
             <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
               {selectedItem.details.map((stat, idx) => (
-                <div key={idx} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#f8fafc", padding: "10px 14px", borderRadius: "10px", border: "1px solid #f1f5f9" }}>
+                <div key={idx} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#f8fafc", padding: "10px 14px", borderRadius: "10px", border: "1px solid #f1f5f9", boxSizing: "border-box", gap: "8px" }}>
                   <span style={{ fontSize: "13px", color: "#4b5563", display: "flex", alignItems: "center", gap: "8px" }}>{stat.icon} {stat.label}</span>
-                  <span style={{ fontSize: "14px", fontWeight: "700", color: "#0f172a" }}>{stat.val}</span>
+                  <span style={{ fontSize: "14px", fontWeight: "700", color: "#0f172a", textAlign: "right" }}>{stat.val}</span>
                 </div>
               ))}
 
               {/* Status / Kondisi */}
               {selectedItem.status && (
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#f8fafc", padding: "10px 14px", borderRadius: "10px", border: "1px solid #f1f5f9" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "#f8fafc", padding: "10px 14px", borderRadius: "10px", border: "1px solid #f1f5f9", boxSizing: "border-box" }}>
                   <span style={{ fontSize: "13px", color: "#4b5563", display: "flex", alignItems: "center", gap: "8px" }}>🛡️ Status Operasional</span>
                   <span style={{ 
                     fontSize: "13px", 
