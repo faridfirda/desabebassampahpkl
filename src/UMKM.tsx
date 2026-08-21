@@ -28,7 +28,7 @@ export default function UMKM() {
       tipe: "unit"
     },
     {
-      nama: "Kompos",
+      nama: "botol plastik",
       jenis: "Pengolahan Sampah Organik",
       alamat: "Area Samping Pos Ronda RW 08",
       deskripsi: "Pusat pengolahan dan pembuatan kompos organik berkualitas tinggi dari sampah sisa rumah tangga warga.",

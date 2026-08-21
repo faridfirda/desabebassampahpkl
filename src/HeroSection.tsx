@@ -1,99 +1,350 @@
-import React from 'react';
-import { Lock, ShieldCheck, Leaf, MapPin } from 'lucide-react';
+import React, { useState } from "react";
+import gerbangImg from "../src/gerbang.jpeg";
 
-export default function HeroSection() {
+export default function HeroHome({ onLoginClick }) {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setMousePos({ x, y });
+  };
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-slate-950 text-white font-sans">
-      {/* --- Navbar --- */}
-      <header className="flex items-center justify-between px-8 py-4 bg-white text-slate-900 shadow-md sticky top-0 z-50">
-        <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-500 to-green-600 flex items-center justify-center font-bold text-xs text-white shadow">
-            RW 08
+    <div
+      style={{
+        background: "#ffffff",
+        paddingTop: "0px",
+        marginTop: "-12px", /* Menarik Hero ke atas untuk menghilangkan celah */
+        paddingBottom: "40px",
+        paddingLeft: "24px",
+        paddingRight: "24px",
+        fontFamily: "'Inter', sans-serif",
+        color: "#1f2937",
+        boxSizing: "border-box",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "1280px",
+          margin: "0 auto",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: "40px",
+          alignItems: "start",
+        }}
+      >
+        {/* KOLOM KIRI */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "20px",
+            width: "100%",
+            boxSizing: "border-box",
+          }}
+        >
+          <div>
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                background: "#f0fdf4",
+                color: "#16a34a",
+                border: "1px solid #bbf7d0",
+                padding: "8px 16px",
+                borderRadius: "30px",
+                fontSize: "13px",
+                fontWeight: "600",
+              }}
+            >
+              🌱 Menuju Kawasan Zero Waste
+            </span>
           </div>
-          <span className="font-bold text-lg tracking-wide">RW 08 Cibangkong</span>
+
+          <h1
+            style={{
+              fontSize: "clamp(32px, 5vw, 42px)",
+              fontWeight: "800",
+              lineHeight: "1.15",
+              margin: 0,
+              color: "#111827",
+              wordBreak: "break-word",
+            }}
+          >
+            Wujudkan RW 08 <br />
+            <span style={{ color: "#16a34a" }}>Kawasan Bebas Sampah</span>
+          </h1>
+
+          <p
+            style={{
+              fontSize: "15px",
+              color: "#4b5563",
+              lineHeight: "1.6",
+              margin: 0,
+            }}
+          >
+            Gerakan sadar lingkungan untuk menciptakan RW 08 Cibangkong yang
+            bersih, sehat, dan asri. Bersama kita kelola sampah mandiri mulai
+            dari rumah melalui pemilahan yang bijak dan berkelanjutan.
+          </p>
+
+          <div
+            style={{
+              background: "#f8fafc",
+              border: "1px solid #e2e8f0",
+              borderRadius: "16px",
+              padding: "20px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+              boxSizing: "border-box",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "13px",
+                fontWeight: "700",
+                color: "#16a34a",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              }}
+            >
+              📅 JADWAL OPERASIONAL BANK SAMPAH:
+            </div>
+            <div
+              style={{
+                fontSize: "14px",
+                fontWeight: "700",
+                color: "#1f2937",
+              }}
+            >
+              Setiap Sabtu & Minggu | Pukul 08.00 - 12.00 WIB
+            </div>
+            <div
+              style={{
+                fontSize: "12px",
+                color: "#6b7280",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                marginTop: "4px",
+              }}
+            >
+              💡{" "}
+              <strong style={{ color: "#374151" }}>Edukasi Pemilahan:</strong>{" "}
+              Pisahkan sampah Organik, Anorganik, dan B3 sebelum disetor!
+            </div>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+              gap: "12px",
+              marginTop: "8px",
+              flexWrap: "wrap",
+            }}
+          >
+            <button
+              onClick={() => scrollToSection("bank-sampah")}
+              style={{
+                background: "#16a34a",
+                color: "#ffffff",
+                padding: "12px 24px",
+                borderRadius: "10px",
+                fontWeight: "600",
+                fontSize: "14px",
+                border: "none",
+                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                boxShadow: "0 4px 12px rgba(22, 163, 74, 0.25)",
+                transition: "transform 0.2s ease",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.transform = "translateY(-2px)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.transform = "translateY(0)")
+              }
+            >
+              ♻️ Cek Bank Sampah
+            </button>
+
+            <button
+              onClick={() => scrollToSection("pemberdayaan")}
+              style={{
+                background: "#ef4444",
+                color: "#ffffff",
+                padding: "12px 24px",
+                borderRadius: "10px",
+                fontWeight: "600",
+                fontSize: "14px",
+                border: "none",
+                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                boxShadow: "0 4px 12px rgba(239, 68, 68, 0.25)",
+                transition: "transform 0.2s ease",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.transform = "translateY(-2px)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.transform = "translateY(0)")
+              }
+            >
+              📢 Lapor Sampah Warga
+            </button>
+
+            <button
+              onClick={onLoginClick}
+              style={{
+                background: "#2563eb",
+                color: "#ffffff",
+                padding: "12px 24px",
+                borderRadius: "10px",
+                fontWeight: "600",
+                fontSize: "14px",
+                border: "none",
+                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                boxShadow: "0 4px 12px rgba(37, 99, 235, 0.25)",
+                transition: "transform 0.2s ease",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.transform = "translateY(-2px)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.transform = "translateY(0)")
+              }
+            >
+              🔒 Login Admin
+            </button>
+          </div>
         </div>
 
-        <nav className="hidden md:flex items-center space-x-6 font-medium text-sm text-slate-700">
-          <a href="#beranda" className="text-emerald-600 font-semibold">Beranda</a>
-          <a href="#peta" className="hover:text-emerald-600 transition">Peta Interaktif</a>
-          <a href="#bank-sampah" className="hover:text-emerald-600 transition">Bank Sampah</a>
-          <a href="#aparat" className="hover:text-emerald-600 transition">Aparat</a>
-          <a href="#statistik" className="hover:text-emerald-600 transition">Statistik</a>
-          <a href="#berita" className="hover:text-emerald-600 transition">Berita</a>
-          <a href="#umkm" className="hover:text-emerald-600 transition">UMKM</a>
-          <a href="#cctv" className="hover:text-emerald-600 transition">CCTV</a>
-        </nav>
+        {/* KOLOM KANAN */}
+        <div
+          style={{
+            background: "#ffffff",
+            border: "1px solid #e2e8f0",
+            borderRadius: "20px",
+            padding: "16px",
+            boxShadow: isHovered
+              ? "0 20px 40px rgba(22,163,74,0.15)"
+              : "0 10px 25px rgba(0,0,0,0.05)",
+            display: "flex",
+            flexDirection: "column",
+            gap: "12px",
+            width: "100%",
+            boxSizing: "border-box",
+            transition: "box-shadow 0.3s ease, transform 0.3s ease",
+            transform: isHovered ? "translateY(-4px)" : "translateY(0)",
+          }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => {
+            setIsHovered(false);
+            setMousePos({ x: 0, y: 0 });
+          }}
+          onMouseMove={handleMouseMove}
+        >
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              borderRadius: "14px",
+              overflow: "hidden",
+            }}
+          >
+            <img
+              src={gerbangImg}
+              alt="Gapura Utama RW 08 Kelurahan Cibangkong"
+              style={{
+                width: "100%",
+                height: "360px",
+                objectFit: "cover",
+                display: "block",
+                transform: `scale(${isHovered ? 1.08 : 1}) translate(${
+                  mousePos.x * 15
+                }px, ${mousePos.y * 15}px)`,
+                transition: "transform 0.1s ease-out",
+              }}
+            />
 
-        <button className="flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg text-sm font-medium shadow transition">
-          <Lock size={16} />
-          <span>Login Admin</span>
-        </button>
-      </header>
-
-      {/* --- Hero Section Content --- */}
-      <main className="relative w-full min-h-[calc(100vh-73px)] flex items-center justify-center overflow-hidden">
-        {/* Background Image & Overlay */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center z-0 filter brightness-40"
-          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=1600')` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-950/80 to-transparent z-0" />
-
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center py-12">
-          
-          {/* Kolom Kiri: Penekanan Jadwal Bank Sampah & Tombol Pelaporan */}
-          <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center space-x-2 bg-emerald-950/80 border border-emerald-700/60 text-emerald-300 px-3 py-1 rounded-full text-xs font-medium backdrop-blur-md">
-              <ShieldCheck size={14} className="text-emerald-400" />
-              <span>Desa Bebas Sampah RW 08 Cibangkong</span>
-            </div>
-
-            <h1 className="text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
-              Jadwal Bank Sampah & <br />
-              <span className="text-emerald-400">Pengelolaan Kebersihan</span>
-            </h1>
-
-            <p className="text-slate-300 text-base lg:text-lg max-w-xl leading-relaxed">
-              Akses cepat jadwal penimbangan sampah, titik kumpul warga, edukasi daur ulang, serta layanan pelaporan lingkungan secara langsung untuk RW 08 yang lebih bersih dan asri.
-            </p>
-
-            <div className="pt-2 flex flex-wrap gap-4 items-center">
-              <a 
-                href="#bank-sampah"
-                className="flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-emerald-600/30 transition transform hover:-translate-y-0.5"
-              >
-                <Leaf size={18} />
-                <span>Jadwal Bank Sampah</span>
-              </a>
-              <a 
-                href="#peta"
-                className="flex items-center space-x-2 bg-emerald-500 hover:bg-emerald-600 text-slate-950 px-6 py-3 rounded-xl font-bold shadow-lg transition transform hover:-translate-y-0.5"
-              >
-                <MapPin size={18} />
-                <span>Lapor Sampah Warga</span>
-              </a>
+            <div
+              style={{
+                position: "absolute",
+                bottom: "16px",
+                left: "16px",
+                background: "rgba(255, 255, 255, 0.95)",
+                backdropFilter: "blur(4px)",
+                padding: "10px 16px",
+                borderRadius: "12px",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                transform: `translate(${mousePos.x * -10}px, ${
+                  mousePos.y * -10
+                }px)`,
+                transition: "transform 0.1s ease-out",
+              }}
+            >
+              <span style={{ fontSize: "18px" }}>♻️</span>
+              <div>
+                <div
+                  style={{
+                    fontSize: "11px",
+                    color: "#6b7280",
+                    fontWeight: "600",
+                  }}
+                >
+                  Target Minggu Ini
+                </div>
+                <div
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "800",
+                    color: "#16a34a",
+                  }}
+                >
+                  85% (Bersih)
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Kolom Kanan: Highlight Kartu Ilustrasi Lingkungan */}
-          <div className="lg:col-span-5 flex justify-center">
-            <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-3 shadow-2xl backdrop-blur-md max-w-md w-full">
-              <div className="overflow-hidden rounded-xl aspect-video relative">
-                <img 
-                  src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&q=80&w=800" 
-                  alt="Aksi Kebersihan RW 08 Cibangkong" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="mt-3 px-2 pb-1 flex items-center space-x-2 text-slate-300 text-sm font-medium">
-                <span className="text-lg">🌿</span>
-                <span className="truncate">Giat Kebersihan & Bank Sampah RW 08 Cibangkong</span>
-              </div>
-            </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              fontSize: "13px",
+              color: "#4b5563",
+              padding: "4px 8px",
+            }}
+          >
+            <span>📍</span> Gapura Utama RW 08 Kelurahan Cibangkong, Kecamatan
+            Batununggal
           </div>
-
         </div>
-      </main>
+      </div>
     </div>
   );
 }

@@ -8,6 +8,7 @@ html {
   scroll-behavior: smooth;
 }
 
+/* NAVBAR CONTAINER */
 .navbar-container {
   position: fixed;
   top: 0;
@@ -15,33 +16,36 @@ html {
   width: 100%;
   z-index: 9999;
   background: transparent;
-  padding: 16px 20px;
+  padding: 12px 20px 0; /* Padding bawah dibuat 0 agar tidak dorong konten */
 }
 
 .navbar-wrapper {
   max-width: 1400px;
   margin: auto;
-  height: 82px;
+  height: 72px; /* Dikecilkan sedikit dari 82px ke 72px agar lebih ringkas */
   background: #fff;
   border-radius: 18px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 30px;
+  padding: 0 24px;
   position: relative;
+  gap: 20px;
 }
 
+/* LOGO & NAMA RW */
 .navbar-logo {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   text-decoration: none;
+  flex-shrink: 0;
 }
 
 .logo-img {
-  width: 54px;
-  height: 54px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -49,15 +53,16 @@ html {
 .logo-title h2 {
   margin: 0;
   color: #183153;
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
+  white-space: nowrap;
 }
 
-/* MENU DESKTOP */
+/* MENU NAVIGASI DESKTOP */
 .navbar-menu {
   display: flex;
   align-items: center;
-  gap: 34px;
+  gap: 16px;
   list-style: none;
 }
 
@@ -68,44 +73,47 @@ html {
 .navbar-menu a {
   text-decoration: none;
   color: #334155;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   transition: .2s;
   white-space: nowrap;
+  padding: 6px 4px;
 }
 
 .navbar-menu a:hover {
   color: #2563eb;
 }
 
+/* TOMBOL LOGIN DESKTOP */
 .btn-login {
   border: none;
   background: #2563eb;
   color: #fff;
-  height: 48px;
-  padding: 0 22px;
+  height: 42px;
+  padding: 0 18px;
   border-radius: 12px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: .2s;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .btn-login:hover {
   background: #1d4ed8;
 }
 
-/* ELEMENT MOBILE (SEMBUNYI DI DESKTOP) */
+/* ELEMEN MOBILE */
 .hamburger-btn {
   display: none;
   background: #2563eb;
   color: #ffffff;
   border: none;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: 10px;
-  font-size: 22px;
+  font-size: 20px;
   cursor: pointer;
   align-items: center;
   justify-content: center;
@@ -115,16 +123,14 @@ html {
   display: none;
 }
 
-/* =========================================== */
-/* RESPONSIVE versi HP / TABLET (<= 1000px)   */
-/* =========================================== */
-@media (max-width: 1000px) {
+/* RESPONSIVE TABLET & HP (<= 1100px) */
+@media (max-width: 1100px) {
   .hamburger-btn {
-    display: flex; /* Tombol garis tiga muncul */
+    display: flex;
   }
 
   .desktop-only {
-    display: none !important; /* Tombol login desktop disembunyikan */
+    display: none !important;
   }
 
   .mobile-login-item {
@@ -137,11 +143,10 @@ html {
     width: 100%;
   }
 
-  /* DROPDOWN MENU DI HP */
   .navbar-menu {
-    display: none; /* Sembunyi default */
+    display: none;
     position: absolute;
-    top: 92px; /* Posisi melayang tepat di bawah navbar */
+    top: 80px;
     left: 0;
     width: 100%;
     background: #ffffff;
@@ -154,7 +159,6 @@ html {
     box-sizing: border-box;
   }
 
-  /* KETIKA HAMBURGER DIKLIK */
   .navbar-menu.active {
     display: flex;
   }

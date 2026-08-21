@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import gerbangImg from "../src/gerbang.jpeg";
 
-export default function HeroHome({ onLoginClick }) {
+export default function HeroHome() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
 
@@ -20,99 +20,218 @@ export default function HeroHome({ onLoginClick }) {
   };
 
   return (
-    <div style={{ background: "#ffffff", minHeight: "100vh", padding: "40px 24px", fontFamily: "'Inter', sans-serif", color: "#1f2937", boxSizing: "border-box" }}>
-      <div style={{ maxWidth: "1280px", margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "40px", alignItems: "center" }}>
-        
+    <div
+      style={{
+        background: "#ffffff",
+        paddingTop: "0px",
+        marginTop: "-60px",
+        paddingBottom: "40px",
+        paddingLeft: "24px",
+        paddingRight: "24px",
+        fontFamily: "'Inter', sans-serif",
+        color: "#1f2937",
+        boxSizing: "border-box",
+        position: "relative",
+        zIndex: 1,
+      }}
+    >
+      <div
+        style={{
+          maxWidth: "1280px",
+          margin: "0 auto",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+          gap: "40px",
+          alignItems: "start",
+        }}
+      >
         {/* KOLOM KIRI */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "20px", width: "100%", boxSizing: "border-box" }}>
-          
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "20px",
+            width: "100%",
+            boxSizing: "border-box",
+          }}
+        >
           <div>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#f0fdf4", color: "#16a34a", border: "1px solid #bbf7d0", padding: "8px 16px", borderRadius: "30px", fontSize: "13px", fontWeight: "600" }}>
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                background: "#f0fdf4",
+                color: "#16a34a",
+                border: "1px solid #bbf7d0",
+                padding: "8px 16px",
+                borderRadius: "30px",
+                fontSize: "13px",
+                fontWeight: "600",
+              }}
+            >
               🌱 Menuju Kawasan Zero Waste
             </span>
           </div>
 
-          <h1 style={{ fontSize: "clamp(32px, 5vw, 42px)", fontWeight: "800", lineHeight: "1.15", margin: 0, color: "#111827", wordBreak: "break-word" }}>
+          <h1
+            style={{
+              fontSize: "clamp(32px, 5vw, 42px)",
+              fontWeight: "800",
+              lineHeight: "1.15",
+              margin: 0,
+              color: "#111827",
+              wordBreak: "break-word",
+            }}
+          >
             Wujudkan RW 08 <br />
             <span style={{ color: "#16a34a" }}>Kawasan Bebas Sampah</span>
           </h1>
 
-          <p style={{ fontSize: "15px", color: "#4b5563", lineHeight: "1.6", margin: 0 }}>
-            Gerakan sadar lingkungan untuk menciptakan RW 08 Cibangkong yang bersih, sehat, dan asri. Bersama kita kelola sampah mandiri mulai dari rumah melalui pemilahan yang bijak dan berkelanjutan.
+          <p
+            style={{
+              fontSize: "15px",
+              color: "#4b5563",
+              lineHeight: "1.6",
+              margin: 0,
+            }}
+          >
+            Gerakan sadar lingkungan untuk menciptakan RW 08 Cibangkong yang
+            bersih, sehat, dan asri. Bersama kita kelola sampah mandiri mulai
+            dari rumah melalui pemilahan yang bijak dan berkelanjutan.
           </p>
 
-          <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "16px", padding: "20px", display: "flex", flexDirection: "column", gap: "10px", boxSizing: "border-box" }}>
-            <div style={{ fontSize: "13px", fontWeight: "700", color: "#16a34a", display: "flex", alignItems: "center", gap: "8px" }}>
+          <div
+            style={{
+              background: "#f8fafc",
+              border: "1px solid #e2e8f0",
+              borderRadius: "16px",
+              padding: "20px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+              boxSizing: "border-box",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "13px",
+                fontWeight: "700",
+                color: "#16a34a",
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+              }}
+            >
               📅 JADWAL OPERASIONAL BANK SAMPAH:
             </div>
-            <div style={{ fontSize: "14px", fontWeight: "700", color: "#1f2937" }}>
+            <div
+              style={{
+                fontSize: "14px",
+                fontWeight: "700",
+                color: "#1f2937",
+              }}
+            >
               Setiap Sabtu & Minggu | Pukul 08.00 - 12.00 WIB
             </div>
-            <div style={{ fontSize: "12px", color: "#6b7280", display: "flex", alignItems: "center", gap: "6px", marginTop: "4px" }}>
-              💡 <strong style={{ color: "#374151" }}>Edukasi Pemilahan:</strong> Pisahkan sampah Organik, Anorganik, dan B3 sebelum disetor!
+            <div
+              style={{
+                fontSize: "12px",
+                color: "#6b7280",
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                marginTop: "4px",
+              }}
+            >
+              💡{" "}
+              <strong style={{ color: "#374151" }}>Edukasi Pemilahan:</strong>{" "}
+              Pisahkan sampah Organik, Anorganik, dan B3 sebelum disetor!
             </div>
           </div>
 
-          {/* TOMBOL BERFUNGSI SESUAI ID DI APP.JSX */}
-          <div style={{ display: "flex", gap: "12px", marginTop: "8px", flexWrap: "wrap" }}>
-            
-            {/* Tombol Cek Bank Sampah -> Scroll ke id="bank-sampah" */}
-            <button 
+          {/* TOMBOL BERAKSI (SISA 2 TOMBOL) */}
+          <div
+            style={{
+              display: "flex",
+              gap: "12px",
+              marginTop: "8px",
+              flexWrap: "wrap",
+            }}
+          >
+            <button
               onClick={() => scrollToSection("bank-sampah")}
-              style={{ 
-                background: "#16a34a", color: "#ffffff", padding: "12px 24px", borderRadius: "10px", 
-                fontWeight: "600", fontSize: "14px", border: "none", cursor: "pointer", display: "inline-flex", 
-                alignItems: "center", gap: "8px", boxShadow: "0 4px 12px rgba(22, 163, 74, 0.25)",
-                transition: "transform 0.2s ease"
+              style={{
+                background: "#16a34a",
+                color: "#ffffff",
+                padding: "12px 24px",
+                borderRadius: "10px",
+                fontWeight: "600",
+                fontSize: "14px",
+                border: "none",
+                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                boxShadow: "0 4px 12px rgba(22, 163, 74, 0.25)",
+                transition: "transform 0.2s ease",
               }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-2px)"}
-              onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.transform = "translateY(-2px)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.transform = "translateY(0)")
+              }
             >
               ♻️ Cek Bank Sampah
             </button>
 
-            {/* Tombol Lapor Sampah Warga -> Scroll ke id="pemberdayaan" atau section lain */}
-            <button 
+            <button
               onClick={() => scrollToSection("pemberdayaan")}
-              style={{ 
-                background: "#ef4444", color: "#ffffff", padding: "12px 24px", borderRadius: "10px", 
-                fontWeight: "600", fontSize: "14px", border: "none", cursor: "pointer", display: "inline-flex", 
-                alignItems: "center", gap: "8px", boxShadow: "0 4px 12px rgba(239, 68, 68, 0.25)",
-                transition: "transform 0.2s ease"
+              style={{
+                background: "#ef4444",
+                color: "#ffffff",
+                padding: "12px 24px",
+                borderRadius: "10px",
+                fontWeight: "600",
+                fontSize: "14px",
+                border: "none",
+                cursor: "pointer",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "8px",
+                boxShadow: "0 4px 12px rgba(239, 68, 68, 0.25)",
+                transition: "transform 0.2s ease",
               }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-2px)"}
-              onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.transform = "translateY(-2px)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.transform = "translateY(0)")
+              }
             >
               📢 Lapor Sampah Warga
             </button>
-
-            {/* Tombol Login Admin -> Memanggil fungsi onLoginClick dari App.jsx */}
-            <button 
-              onClick={onLoginClick}
-              style={{ 
-                background: "#2563eb", color: "#ffffff", padding: "12px 24px", borderRadius: "10px", 
-                fontWeight: "600", fontSize: "14px", border: "none", cursor: "pointer", display: "inline-flex", 
-                alignItems: "center", gap: "8px", boxShadow: "0 4px 12px rgba(37, 99, 235, 0.25)",
-                transition: "transform 0.2s ease"
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-2px)"}
-              onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}
-            >
-              🔒 Login Admin
-            </button>
-
           </div>
-
         </div>
 
-        {/* KOLOM KANAN (Gambar & Efek Mouse) */}
-        <div 
-          style={{ 
-            background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: "20px", padding: "16px", 
-            boxShadow: isHovered ? "0 20px 40px rgba(22,163,74,0.15)" : "0 10px 25px rgba(0,0,0,0.05)", 
-            display: "flex", flexDirection: "column", gap: "12px", width: "100%", boxSizing: "border-box",
+        {/* KOLOM KANAN */}
+        <div
+          style={{
+            background: "#ffffff",
+            border: "1px solid #e2e8f0",
+            borderRadius: "20px",
+            padding: "16px",
+            boxShadow: isHovered
+              ? "0 20px 40px rgba(22,163,74,0.15)"
+              : "0 10px 25px rgba(0,0,0,0.05)",
+            display: "flex",
+            flexDirection: "column",
+            gap: "12px",
+            width: "100%",
+            boxSizing: "border-box",
             transition: "box-shadow 0.3s ease, transform 0.3s ease",
-            transform: isHovered ? "translateY(-4px)" : "translateY(0)"
+            transform: isHovered ? "translateY(-4px)" : "translateY(0)",
           }}
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => {
@@ -121,37 +240,86 @@ export default function HeroHome({ onLoginClick }) {
           }}
           onMouseMove={handleMouseMove}
         >
-          <div style={{ position: "relative", width: "100%", borderRadius: "14px", overflow: "hidden" }}>
-            <img 
-              src={gerbangImg} 
-              alt="Gapura Utama RW 08 Kelurahan Cibangkong" 
-              style={{ 
-                width: "100%", height: "360px", objectFit: "cover", display: "block",
-                transform: `scale(${isHovered ? 1.08 : 1}) translate(${mousePos.x * 15}px, ${mousePos.y * 15}px)`,
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              borderRadius: "14px",
+              overflow: "hidden",
+            }}
+          >
+            <img
+              src={gerbangImg}
+              alt="Gapura Utama RW 08 Kelurahan Cibangkong"
+              style={{
+                width: "100%",
+                height: "360px",
+                objectFit: "cover",
+                display: "block",
+                transform: `scale(${isHovered ? 1.08 : 1}) translate(${
+                  mousePos.x * 15
+                }px, ${mousePos.y * 15}px)`,
                 transition: "transform 0.1s ease-out",
               }}
             />
 
-            <div style={{ 
-              position: "absolute", bottom: "16px", left: "16px", background: "rgba(255, 255, 255, 0.95)", 
-              backdropFilter: "blur(4px)", padding: "10px 16px", borderRadius: "12px", display: "flex", 
-              alignItems: "center", gap: "10px", boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-              transform: `translate(${mousePos.x * -10}px, ${mousePos.y * -10}px)`,
-              transition: "transform 0.1s ease-out"
-            }}>
+            <div
+              style={{
+                position: "absolute",
+                bottom: "16px",
+                left: "16px",
+                background: "rgba(255, 255, 255, 0.95)",
+                backdropFilter: "blur(4px)",
+                padding: "10px 16px",
+                borderRadius: "12px",
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                transform: `translate(${mousePos.x * -10}px, ${
+                  mousePos.y * -10
+                }px)`,
+                transition: "transform 0.1s ease-out",
+              }}
+            >
               <span style={{ fontSize: "18px" }}>♻️</span>
               <div>
-                <div style={{ fontSize: "11px", color: "#6b7280", fontWeight: "600" }}>Target Minggu Ini</div>
-                <div style={{ fontSize: "16px", fontWeight: "800", color: "#16a34a" }}>85% (Bersih)</div>
+                <div
+                  style={{
+                    fontSize: "11px",
+                    color: "#6b7280",
+                    fontWeight: "600",
+                  }}
+                >
+                  Target Minggu Ini
+                </div>
+                <div
+                  style={{
+                    fontSize: "16px",
+                    fontWeight: "800",
+                    color: "#16a34a",
+                  }}
+                >
+                  85% (Bersih)
+                </div>
               </div>
             </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: "#4b5563", padding: "4px 8px" }}>
-            <span>📍</span> Gapura Utama RW 08 Kelurahan Cibangkong, Kecamatan Batununggal
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              fontSize: "13px",
+              color: "#4b5563",
+              padding: "4px 8px",
+            }}
+          >
+            <span>📍</span> Gapura Utama RW 08 Kelurahan Cibangkong, Kecamatan
+            Batununggal
           </div>
         </div>
-
       </div>
     </div>
   );
